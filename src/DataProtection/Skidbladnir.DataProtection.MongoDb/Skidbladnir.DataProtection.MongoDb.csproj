@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Klabukov Erik</Authors>
+    <Description>Data Protection Implementation with usign Skidbladnir.Repository.MongoDB</Description>
+    <PackageTags>data protection; aspnet core; mongodb</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <VersionPrefix>0.0.1</VersionPrefix>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Skidbladnir.DataProtection.Abstractions\Skidbladnir.DataProtection.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Repository\Skidbladnir.Repository.Abstractions\Skidbladnir.Repository.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Repository\Skidbladnir.Repository.MongoDB\Skidbladnir.Repository.MongoDB.csproj" />
+  </ItemGroup>
+
+</Project>
