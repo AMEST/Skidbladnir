@@ -7,6 +7,6 @@ namespace Skidbladnir.Repository.MongoDB
         /// <summary>
         /// Get collection from mongodb
         /// </summary>
-        IMongoCollection<T> GetCollection<T>(string name);
+        IMongoCollection<T> GetCollection<T>();
     }
 }

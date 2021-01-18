@@ -1,17 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Klabukov Erik</Authors>
-    <Description>Data Protection Implementation with usign Skidbladnir.Repository.MongoDB</Description>
-    <PackageTags>DataProtection; aspnet core; mongodb</PackageTags>
+    <Description>Distributed cache Implementation with usign Skidbladnir.Repository.MongoDB</Description>
+    <PackageTags>DistributedCache; aspnetcore; mongodb</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <VersionPrefix>0.0.1</VersionPrefix>
     <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Skidbladnir.DataProtection.Abstractions\Skidbladnir.DataProtection.Abstractions.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.1.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Repository\Skidbladnir.Repository.Abstractions\Skidbladnir.Repository.Abstractions.csproj" />
     <ProjectReference Include="..\..\Repository\Skidbladnir.Repository.MongoDB\Skidbladnir.Repository.MongoDB.csproj" />
   </ItemGroup>

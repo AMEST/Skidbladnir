@@ -1,4 +1,7 @@
-﻿using MongoDB.Driver;
+﻿using System;
+using System.Linq;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
 
 namespace Skidbladnir.Repository.MongoDB
 {
@@ -20,9 +23,18 @@ namespace Skidbladnir.Repository.MongoDB
         }
 
         /// <inheritdoc />
-        public virtual IMongoCollection<T> GetCollection<T>(string name)
+        public virtual IMongoCollection<T> GetCollection<T>()
         {
-            return Db.GetCollection<T>(name);
+            var cm = BsonClassMap.GetRegisteredClassMaps().OfType<EntityMapClass<T>>().SingleOrDefault();
+            if (cm == null)
+            {
+                throw new Exception($"No registered EntityMapClass<T> found for type: {typeof(T).Name}");
+            }
+            if (string.IsNullOrEmpty(cm.CollectionName))
+            {
+                throw new Exception($"EntityMapClass<T> must call ToCollection method to specify mongo collection name. Type: {typeof(T).Name}");
+            }
+            return Db.GetCollection<T>(cm.CollectionName);
         }
     }
 }

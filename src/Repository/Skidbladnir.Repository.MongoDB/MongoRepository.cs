@@ -18,7 +18,7 @@ namespace Skidbladnir.Repository.MongoDB
         public MongoRepository(TDbContext context)
         {
             _mongoContext = context;
-            _dbCollection = _mongoContext.GetCollection<TEntity>(typeof(TEntity).Name);
+            _dbCollection = _mongoContext.GetCollection<TEntity>();
         }
 
         public async Task Create(TEntity obj)
@@ -31,7 +31,6 @@ namespace Skidbladnir.Repository.MongoDB
             if (string.IsNullOrEmpty(obj.Id))
                 obj.Id = ObjectId.GenerateNewId().ToString();
 
-            _dbCollection = _mongoContext.GetCollection<TEntity>(typeof(TEntity).Name);
             await _dbCollection.InsertOneAsync(obj);
         }
 
@@ -42,14 +41,15 @@ namespace Skidbladnir.Repository.MongoDB
 
         public virtual void Update(TEntity obj)
         {
-            _dbCollection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.Id), obj);
+            _dbCollection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.Id), obj, new ReplaceOptions()
+            {
+                IsUpsert = true
+            });
         }
 
         public async Task<TEntity> Get(string id)
         {
             var filter = Builders<TEntity>.Filter.Eq("_id", id);
-
-            _dbCollection = _mongoContext.GetCollection<TEntity>(typeof(TEntity).Name);
 
             return await _dbCollection.FindAsync(filter).Result.FirstOrDefaultAsync();
         }

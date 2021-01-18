@@ -7,15 +7,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{37AF3977-2CE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{88207500-3930-4DB8-AF3A-5C6E7C5A9B2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidbladnir.Repository.Abstractions", "src\Repository\Skidbladnir.Repository.Abstractions\Skidbladnir.Repository.Abstractions.csproj", "{15189243-A763-4AB9-9FFC-F780C80FE94D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.Repository.Abstractions", "src\Repository\Skidbladnir.Repository.Abstractions\Skidbladnir.Repository.Abstractions.csproj", "{15189243-A763-4AB9-9FFC-F780C80FE94D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidbladnir.Repository.MongoDB", "src\Repository\Skidbladnir.Repository.MongoDB\Skidbladnir.Repository.MongoDB.csproj", "{B82853F9-9F49-49B6-BF8F-FCB7C8A73914}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.Repository.MongoDB", "src\Repository\Skidbladnir.Repository.MongoDB\Skidbladnir.Repository.MongoDB.csproj", "{B82853F9-9F49-49B6-BF8F-FCB7C8A73914}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataProtection", "DataProtection", "{DE41812D-55F8-4896-8673-05C49C11B80E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidbladnir.DataProtection.MongoDb", "src\DataProtection\Skidbladnir.DataProtection.MongoDb\Skidbladnir.DataProtection.MongoDb.csproj", "{8AE21054-55C9-4113-B55E-0B284F62CD76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.DataProtection.MongoDb", "src\DataProtection\Skidbladnir.DataProtection.MongoDb\Skidbladnir.DataProtection.MongoDb.csproj", "{8AE21054-55C9-4113-B55E-0B284F62CD76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidbladnir.DataProtection.Abstractions", "src\DataProtection\Skidbladnir.DataProtection.Abstractions\Skidbladnir.DataProtection.Abstractions.csproj", "{7DFE9539-7E41-4D31-9767-D55E1981C465}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.DataProtection.Abstractions", "src\DataProtection\Skidbladnir.DataProtection.Abstractions\Skidbladnir.DataProtection.Abstractions.csproj", "{7DFE9539-7E41-4D31-9767-D55E1981C465}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Caching", "Caching", "{B1F0FC38-227B-4D4D-BE4A-B11F72CBA7B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidbladnir.Caching.Distributed.MongoDB", "src\Caching\Skidbladnir.Caching.Distributed.MongoDB\Skidbladnir.Caching.Distributed.MongoDB.csproj", "{6FC2BF9A-59B5-4B62-BFC5-DACC653C59F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,10 @@ Global
 		{7DFE9539-7E41-4D31-9767-D55E1981C465}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DFE9539-7E41-4D31-9767-D55E1981C465}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DFE9539-7E41-4D31-9767-D55E1981C465}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FC2BF9A-59B5-4B62-BFC5-DACC653C59F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FC2BF9A-59B5-4B62-BFC5-DACC653C59F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FC2BF9A-59B5-4B62-BFC5-DACC653C59F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FC2BF9A-59B5-4B62-BFC5-DACC653C59F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +58,8 @@ Global
 		{DE41812D-55F8-4896-8673-05C49C11B80E} = {37AF3977-2CE3-410F-BAC7-4EDC010A35E9}
 		{8AE21054-55C9-4113-B55E-0B284F62CD76} = {DE41812D-55F8-4896-8673-05C49C11B80E}
 		{7DFE9539-7E41-4D31-9767-D55E1981C465} = {DE41812D-55F8-4896-8673-05C49C11B80E}
+		{B1F0FC38-227B-4D4D-BE4A-B11F72CBA7B4} = {37AF3977-2CE3-410F-BAC7-4EDC010A35E9}
+		{6FC2BF9A-59B5-4B62-BFC5-DACC653C59F8} = {B1F0FC38-227B-4D4D-BE4A-B11F72CBA7B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F5502508-B14D-4DDE-9CCF-2A62CF7C4F71}

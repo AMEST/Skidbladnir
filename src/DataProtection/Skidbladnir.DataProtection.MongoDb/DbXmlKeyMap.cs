@@ -10,7 +10,7 @@ namespace Skidbladnir.DataProtection.MongoDb
     {
         public DbXmlKeyMap()
         {
-            ToCollection("dataProtectionKeys");
+            ToCollection("DataProtectionKeys");
 
             MapProperty(x => x.Key).SetIsRequired(true);
 
