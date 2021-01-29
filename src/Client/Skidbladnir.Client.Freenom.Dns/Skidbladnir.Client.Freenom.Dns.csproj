@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Authors>Klabukov Erik</Authors>
+    <Description>Freenom dns client for manage dns records</Description>
+    <PackageTags>freenom; client</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.30" />
+  </ItemGroup>
+
+</Project>
