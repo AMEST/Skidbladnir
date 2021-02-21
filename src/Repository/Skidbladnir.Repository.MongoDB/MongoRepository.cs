@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Skidbladnir.Repository.Abstractions;
+using Skidbladnir.Utility.Common;
 
 namespace Skidbladnir.Repository.MongoDB
 {
@@ -13,15 +14,17 @@ namespace Skidbladnir.Repository.MongoDB
 
     {
         private readonly TDbContext _mongoContext;
-        private IMongoCollection<TEntity> _dbCollection;
+        private readonly IMongoDbContextConfiguration _configuration;
+        private readonly IMongoCollection<TEntity> _dbCollection;
 
-        public MongoRepository(TDbContext context)
+        public MongoRepository(TDbContext context, MongoDbContextConfiguration<TDbContext> configuration)
         {
             _mongoContext = context;
+            _configuration = configuration;
             _dbCollection = _mongoContext.GetCollection<TEntity>();
         }
 
-        public async Task Create(TEntity obj)
+        public Task Create(TEntity obj)
         {
             if (obj == null)
             {
@@ -31,27 +34,30 @@ namespace Skidbladnir.Repository.MongoDB
             if (string.IsNullOrEmpty(obj.Id))
                 obj.Id = ObjectId.GenerateNewId().ToString();
 
-            await _dbCollection.InsertOneAsync(obj);
+            return Retry.Do(() => _dbCollection.InsertOneAsync(obj), _configuration.RetryCount);
         }
 
-        public void Delete(string id)
+        public Task Delete(string id)
         {
-            _dbCollection.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", id));
+            return Retry.Do(() => _dbCollection.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", id)),
+                _configuration.RetryCount);
         }
 
-        public virtual void Update(TEntity obj)
+        public virtual Task Update(TEntity obj)
         {
-            _dbCollection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.Id), obj, new ReplaceOptions()
-            {
-                IsUpsert = true
-            });
+            return Retry.Do(() => _dbCollection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.Id), obj,
+                new ReplaceOptions()
+                {
+                    IsUpsert = true
+                }), _configuration.RetryCount);
         }
 
-        public async Task<TEntity> Get(string id)
+        public Task<TEntity> Get(string id)
         {
             var filter = Builders<TEntity>.Filter.Eq("_id", id);
 
-            return await _dbCollection.FindAsync(filter).Result.FirstOrDefaultAsync();
+            return Retry.Do(() => _dbCollection.FindAsync(filter).Result.FirstOrDefaultAsync(),
+                _configuration.RetryCount);
         }
 
         public IQueryable<TEntity> GetAll()

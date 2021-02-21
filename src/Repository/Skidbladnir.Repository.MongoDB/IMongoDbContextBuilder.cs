@@ -5,15 +5,26 @@ namespace Skidbladnir.Repository.MongoDB
     public interface IMongoDbContextBuilder
     {
         /// <summary>
-        /// Register entity, entity configuration for with using this db context
+        /// Register entity with default entity configuration
+        /// </summary>
+        IMongoDbContextBuilder AddEntity<TEntity>()
+            where TEntity : class, IHasId;
+
+        /// <summary>
+        /// Register entity, entity configuration
         /// </summary>
         IMongoDbContextBuilder AddEntity<TEntity, TEntityConfiguration>()
             where TEntity: class, IHasId
             where TEntityConfiguration : EntityMapClass<TEntity>, new();
 
         /// <summary>
-        /// Congigure connection string
+        /// Configure connection string
         /// </summary>
         IMongoDbContextBuilder UseConnectionString(string connectionString);
+
+        /// <summary>
+        /// Configure retry count
+        /// </summary>
+        IMongoDbContextBuilder UseRetry(int retryCount);
     }
 }

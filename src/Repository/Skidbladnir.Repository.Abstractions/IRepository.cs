@@ -13,12 +13,12 @@ namespace Skidbladnir.Repository.Abstractions
         /// <summary>
         /// Update entity in storage
         /// </summary>
-        void Update(TEntity obj);
+        Task Update(TEntity obj);
 
         /// <summary>
         /// Delete entity from storage
         /// </summary>
-        void Delete(string id);
+        Task Delete(string id);
 
         /// <summary>
         /// Get entity from storage by id

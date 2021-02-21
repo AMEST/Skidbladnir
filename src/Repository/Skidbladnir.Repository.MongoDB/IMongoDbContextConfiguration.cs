@@ -8,6 +8,11 @@
         /// <summary>
         /// Mongo Db Connection string
         /// </summary>
-        string ConnectionString { get; set; }
+        string ConnectionString { get; }
+
+        /// <summary>
+        /// Retry count for executing command
+        /// </summary>
+        int RetryCount { get; }
     }
 }
