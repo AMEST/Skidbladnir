@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Client\Skidbkadnir.Client.Freenom.Dns\Skidbladnir.Client.Freenom.Dns.csproj" />
     <ProjectReference Include="..\..\..\src\Client\Skidbladnir.Client.Freenom.Dns\Skidbladnir.Client.Freenom.Dns.csproj" />
   </ItemGroup>
 
