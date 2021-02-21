@@ -1,5 +1,9 @@
 # Skidbladnir libraries
 
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/amest/Skidbladnir)
+![GitHub](https://img.shields.io/github/license/amest/Skidbladnir)
+
+
 - [Skidbladnir libraries](#skidbladnir-libraries)
   - [Description](#description)
   - [Content of Skidbladnir](#content-of-skidbladnir)
@@ -17,5 +21,5 @@ The repository contains the following directions and libraries:
   * [DistributedCache.MongoDB](src/Caching/Skidbladnir.Caching.Distributed.MongoDB/README.md) - Distributed cache implementation using MongoDB
 * DataProtection - Abstraction of data protection asp net core subsystem for Skidbladnir libraries
   * DataProtection.MongoDB - Data protection implementation using Skidbladnir.Repository.MongoDB
-* Client - Clients implementations for various services
-  * Client.Freenom.Dns - Client implementation for freenom.com dns
+* [Client](src/Client/README.md) - Clients implementations for various services
+  * [Client.Freenom.Dns](src/Client/Skidbladnir.Client.Freenom.Dns/README.md) - Client for managing dns zones in freenom
