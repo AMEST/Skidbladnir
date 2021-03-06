@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Skidbladnir.Storage.Abstractions;
+using FileInfo = Skidbladnir.Storage.Abstractions.FileInfo;
 
 namespace Skidbladnir.Storage.LocalFileStorage.Sample
 {
@@ -30,9 +31,12 @@ namespace Skidbladnir.Storage.LocalFileStorage.Sample
                 var currentDir = await _localStorage.GetFilesAsync("");
                 _logger.LogInformation("Files in root dir");
                 foreach (var fileInfo in currentDir)
+                {
                     _logger.LogInformation("Filename: {FileName}\t\t Length: {Length}\t\t Date: {Date}",
                         fileInfo.FileName,
                         fileInfo.Size, fileInfo.CreatedDate);
+                    await DownloadFileAndPrint(fileInfo);
+                }
 
                 _logger.LogInformation("upload file:");
                 var testFileUploadStream = new MemoryStream(testBinary);
@@ -55,14 +59,26 @@ namespace Skidbladnir.Storage.LocalFileStorage.Sample
                 _logger.LogInformation("Files in root dir");
                 currentDir = await _localStorage.GetFilesAsync("");
                 foreach (var fileInfo in currentDir)
+                {
                     _logger.LogInformation("Filename: {FileName}\t\t Length: {Length}\t\t Date: {Date}",
                         fileInfo.FileName,
                         fileInfo.Size, fileInfo.CreatedDate);
+                    await DownloadFileAndPrint(fileInfo);
+                }
             }
             catch (Exception e)
             {
                 _logger.LogError("Error", e);
             }
+        }
+
+        private async Task DownloadFileAndPrint(FileInfo info)
+        {
+            var result = await _localStorage.DownloadFileAsync(info.FilePath);
+            await using var fileStream = result.Content;
+            using var streamReader = new StreamReader(fileStream);
+            var fileContent = await streamReader.ReadToEndAsync();
+            _logger.LogInformation("File Content: {Content}", fileContent);
         }
     }
 }

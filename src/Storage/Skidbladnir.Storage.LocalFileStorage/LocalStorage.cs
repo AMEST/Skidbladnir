@@ -33,8 +33,7 @@ namespace Skidbladnir.Storage.LocalFileStorage
             foreach (var fileName in fileNames)
             {
                 var localFileInfo = new System.IO.FileInfo(fileName);
-                var relaivePath = localFileInfo.FullName.Replace(_storageInfo.StoragePath, "").StripPath();
-                fileInfoList.Add(new FileInfo(relaivePath, localFileInfo.Length, localFileInfo.CreationTimeUtc));
+                fileInfoList.Add(localFileInfo.ToFileInfo(_storageInfo));
             }
 
             return Task.FromResult(fileInfoList.ToArray());
@@ -50,8 +49,8 @@ namespace Skidbladnir.Storage.LocalFileStorage
                 throw new FileNotFoundException("File not found", fullPath);
 
             var file = new System.IO.FileInfo(fullPath);
-            var relativePath = file.FullName.Replace(_storageInfo.StoragePath, "").StripPath();
-            return Task.FromResult(new FileInfo(relativePath, file.Length, file.CreationTimeUtc));
+            var fileInfo = file.ToFileInfo(_storageInfo);
+            return Task.FromResult(fileInfo);
         }
 
         public Task CopyAsync(string srcPath, string destPath)
@@ -67,8 +66,8 @@ namespace Skidbladnir.Storage.LocalFileStorage
             if (!File.Exists(srcFullPath))
                 throw new FileNotFoundException("File not found", srcFullPath);
 
-            if (!Directory.Exists(GetPathWithoutFileName(destFullPath)))
-                Directory.CreateDirectory(GetPathWithoutFileName(destFullPath));
+            if (!Directory.Exists(destFullPath.GetPathWithoutFileName()))
+                Directory.CreateDirectory(destFullPath.GetPathWithoutFileName());
 
             File.Copy(srcFullPath, destFullPath, true);
 
@@ -88,8 +87,8 @@ namespace Skidbladnir.Storage.LocalFileStorage
             if (!File.Exists(srcFullPath))
                 throw new FileNotFoundException("File not found", srcFullPath);
 
-            if (!Directory.Exists(GetPathWithoutFileName(destFullPath)))
-                Directory.CreateDirectory(GetPathWithoutFileName(destFullPath));
+            if (!Directory.Exists(destFullPath.GetPathWithoutFileName()))
+                Directory.CreateDirectory(destFullPath.GetPathWithoutFileName());
 
             if (File.Exists(destFullPath))
                 File.Delete(destFullPath);
@@ -123,8 +122,7 @@ namespace Skidbladnir.Storage.LocalFileStorage
             return Task.FromResult(File.Exists(fullPath));
         }
 
-        public async Task<FileInfo> UploadFileAsync(Stream stream, string pathToFile,
-            IDictionary<string, string> attributes = null)
+        public async Task<FileInfo> UploadFileAsync(Stream stream, string pathToFile)
         {
             if (stream == null)
                 throw new ArgumentNullException(nameof(stream), "Can't be null");
@@ -141,7 +139,7 @@ namespace Skidbladnir.Storage.LocalFileStorage
                 await stream.CopyToAsync(fileStream);
             }
 
-            return new FileInfo(pathToFile, stream.Length, DateTime.UtcNow);
+            return new FileInfo(pathToFile.EscapePath().StripPath(), stream.Length, DateTime.UtcNow);
         }
 
         public Task<DownloadResult> DownloadFileAsync(string pathToFile)
@@ -155,18 +153,8 @@ namespace Skidbladnir.Storage.LocalFileStorage
                 throw new FileNotFoundException("File not found", fullPath);
 
             var localFileInfo = new System.IO.FileInfo(fullPath);
-            var fileInfo = new FileInfo(fullPath, localFileInfo.Length, localFileInfo.CreationTimeUtc);
+            var fileInfo =localFileInfo.ToFileInfo(_storageInfo);
             return Task.FromResult(new DownloadResult(fileInfo, localFileInfo.OpenRead()));
-        }
-
-        private string GetPathWithoutFileName(string path)
-        {
-            var splitedPath = path.Split(Path.DirectorySeparatorChar);
-            if (splitedPath.Length <= 0)
-                return path;
-
-            return string.Join(Path.DirectorySeparatorChar.ToString(),
-                splitedPath.Take(splitedPath.Length - 1).ToArray());
         }
     }
 }

@@ -9,12 +9,11 @@ namespace Skidbladnir.Storage.Abstractions
     /// </summary>
     public class FileInfo
     {
-        public FileInfo(string filePath, long size, DateTime createdDate, IDictionary<string, string> attributes = null)
+        public FileInfo(string filePath, long size, DateTime createdDate)
         {
             FilePath = filePath.Replace("\\","/");
             Size = size;
             CreatedDate = createdDate;
-            Attributes = attributes;
         }
 
         /// <summary>
@@ -46,10 +45,5 @@ namespace Skidbladnir.Storage.Abstractions
         /// File creation date
         /// </summary>
         public DateTime CreatedDate { get; }
-
-        /// <summary>
-        /// File additional attributes
-        /// </summary>
-        public IDictionary<string, string> Attributes { get; }
     }
 }

@@ -44,8 +44,7 @@ namespace Skidbladnir.Storage.Abstractions
         /// </summary>
         Task<FileInfo> UploadFileAsync(
             Stream stream,
-            string pathToFile,
-            IDictionary<string, string> attributes = null
+            string pathToFile
         );
 
         /// <summary>
