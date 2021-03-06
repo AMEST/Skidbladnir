@@ -12,6 +12,7 @@ namespace Skidbladnir.Storage.GridFS
             var storageInfo = new GridFsStorageInfo(connectionString);
             services.AddSingleton<GridFsStorageInfo>(storageInfo);
             services.AddSingleton<IStorage<GridFsStorageInfo>, GridFsStorage<GridFsStorageInfo>>();
+            services.AddSingleton<BucketFactory<GridFsStorageInfo>>();
             return services;
         }
 
@@ -27,6 +28,7 @@ namespace Skidbladnir.Storage.GridFS
             var storageInfo = (TStorageInfo)constructorInfo.Invoke(new[] { name, connectionString });
             services.AddSingleton<TStorageInfo>(storageInfo);
             services.AddSingleton<IStorage<TStorageInfo>, GridFsStorage<TStorageInfo>>();
+            services.AddSingleton<BucketFactory<TStorageInfo>>();
             return services;
         }
 

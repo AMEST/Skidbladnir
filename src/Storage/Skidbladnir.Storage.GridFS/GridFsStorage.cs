@@ -34,15 +34,16 @@ namespace Skidbladnir.Storage.GridFS
         {
             var filter = Builders<GridFSFileInfo>.Filter.Eq(f => f.Filename, pathToFile.NormilizePath());
             var results = await FindAsync(filter).ConfigureAwait(false);
-            var info = results.FirstOrDefault();
+            var info = await results.FirstOrDefaultAsync();
             return info?.ToFileInfo();
         }
 
         public async Task CopyAsync(string srcPath, string destPath)
         {
             var filter = Builders<GridFSFileInfo>.Filter.Eq(f => f.Filename, srcPath.NormilizePath());
-            var results = await FindAsync(filter).ConfigureAwait(false);
-            if (!(await results.AnyAsync().ConfigureAwait(false)))
+            var results = await (await FindAsync(filter).ConfigureAwait(false)).ToListAsync().ConfigureAwait(false);
+
+            if (!results.Any())
                 throw new FileNotFoundException("File not found", srcPath);
 
             using (var fileStream = _gridFsBucket.Value.OpenDownloadStream(results.First().Id))
@@ -54,8 +55,9 @@ namespace Skidbladnir.Storage.GridFS
         public async Task MoveAsync(string srcPath, string destPath)
         {
             var filter = Builders<GridFSFileInfo>.Filter.Eq(f => f.Filename, srcPath.NormilizePath());
-            var results = await FindAsync(filter).ConfigureAwait(false);
-            if (!(await results.AnyAsync().ConfigureAwait(false)))
+            var results = await (await FindAsync(filter).ConfigureAwait(false)).ToListAsync().ConfigureAwait(false);
+
+            if (!results.Any())
                 return;
 
             await _gridFsBucket.Value.RenameAsync(results.First().Id, destPath.NormilizePath());
@@ -64,9 +66,9 @@ namespace Skidbladnir.Storage.GridFS
         public async Task DeleteAsync(string pathToFile)
         {
             var filter = Builders<GridFSFileInfo>.Filter.Eq(f => f.Filename, pathToFile.NormilizePath());
-            var results = await FindAsync(filter).ConfigureAwait(false);
+            var results = await (await FindAsync(filter).ConfigureAwait(false)).ToListAsync().ConfigureAwait(false);
 
-            if (!(await results.AnyAsync().ConfigureAwait(false)))
+            if (!results.Any())
                 return;
 
             await _gridFsBucket.Value.DeleteAsync(results.First().Id).ConfigureAwait(false);

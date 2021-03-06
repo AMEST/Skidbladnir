@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>dotnet-Skidbladnir.Storage.GridFsStorage.Sample-787BED6C-5903-4167-A8ED-D49D22651591</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Storage\Skidbladnir.Storage.Abstractions\Skidbladnir.Storage.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\Storage\Skidbladnir.Storage.GridFS\Skidbladnir.Storage.GridFS.csproj" />
+  </ItemGroup>
+</Project>
