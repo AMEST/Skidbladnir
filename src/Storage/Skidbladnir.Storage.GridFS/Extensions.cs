@@ -37,7 +37,7 @@ namespace Skidbladnir.Storage.GridFS
             if (string.IsNullOrWhiteSpace(path))
                 return "/";
 
-            var normilizedPath = path.Replace("\\", "/");
+            var normilizedPath = path.Replace("\\", "/").Replace("//","/");
             return path.StartsWith("/")
                 ? normilizedPath
                 : $"/{normilizedPath}";

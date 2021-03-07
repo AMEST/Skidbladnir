@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk.Worker">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>dotnet-Skidbladnir.Storage.GridFsStorage.Sample-787BED6C-5903-4167-A8ED-D49D22651591</UserSecretsId>
+    <UserSecretsId>8a931100-9ae9-4b6a-87c7-a1486c219b58</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

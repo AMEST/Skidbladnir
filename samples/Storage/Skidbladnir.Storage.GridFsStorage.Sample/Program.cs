@@ -16,7 +16,7 @@ namespace Skidbladnir.Storage.GridFsStorage.Sample
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<Worker>();
-                    services.AddGridFsStorage("mongodb://storage:pa$$word@vm-docker-erik:27017/StorageGFTest?authSource=admin");
+                    services.AddGridFsStorage(hostContext.Configuration["Storage:ConnectionString"]);
                 });
     }
 }

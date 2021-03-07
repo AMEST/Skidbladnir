@@ -46,6 +46,9 @@ namespace Skidbladnir.Storage.GridFS
             if (!results.Any())
                 throw new FileNotFoundException("File not found", srcPath);
 
+            if (await Exist(destPath.NormilizePath()).ConfigureAwait(false))
+                await DeleteAsync(destPath).ConfigureAwait(false);
+
             using (var fileStream = _gridFsBucket.Value.OpenDownloadStream(results.First().Id))
             {
                 await _gridFsBucket.Value.UploadFromStreamAsync(destPath.NormilizePath(), fileStream);
@@ -59,6 +62,9 @@ namespace Skidbladnir.Storage.GridFS
 
             if (!results.Any())
                 return;
+
+            if (await Exist(destPath.NormilizePath()).ConfigureAwait(false))
+                await DeleteAsync(destPath).ConfigureAwait(false);
 
             await _gridFsBucket.Value.RenameAsync(results.First().Id, destPath.NormilizePath());
         }
