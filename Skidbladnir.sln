@@ -37,9 +37,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.Storage.Abstrac
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{51A6A2A6-4761-4778-AF58-76E3F0C77E8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidbladnir.Utility.Common", "src\Utility\Skidbladnir.Utility.Common\Skidbladnir.Utility.Common.csproj", "{840280FE-7127-4224-99E4-DACC62062041}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.Utility.Common", "src\Utility\Skidbladnir.Utility.Common\Skidbladnir.Utility.Common.csproj", "{840280FE-7127-4224-99E4-DACC62062041}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidbladnir.Storage.LocalFileStorage", "src\Storage\Skidbladnir.Storage.LocalFileStorage\Skidbladnir.Storage.LocalFileStorage.csproj", "{448AABBD-D243-49DC-8DE7-C4A9E4F9E3B4}"
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.Storage.LocalFileStorage", "src\Storage\Skidbladnir.Storage.LocalFileStorage\Skidbladnir.Storage.LocalFileStorage.csproj", "{448AABBD-D243-49DC-8DE7-C4A9E4F9E3B4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storage", "Storage", "{5B76C393-EF50-410E-A665-079A7A176DC7}"
@@ -48,7 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.Storage.LocalFi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.Storage.GridFS", "src\Storage\Skidbladnir.Storage.GridFS\Skidbladnir.Storage.GridFS.csproj", "{544DF396-CBD2-4547-877A-98476F481F77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidbladnir.Storage.GridFsStorage.Sample", "samples\Storage\Skidbladnir.Storage.GridFsStorage.Sample\Skidbladnir.Storage.GridFsStorage.Sample.csproj", "{84E11C48-08BD-4B8B-A79C-61CF6537937C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.Storage.GridFsStorage.Sample", "samples\Storage\Skidbladnir.Storage.GridFsStorage.Sample\Skidbladnir.Storage.GridFsStorage.Sample.csproj", "{84E11C48-08BD-4B8B-A79C-61CF6537937C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,10 +122,10 @@ Global
 		{FAE19BC3-FADE-4FFF-92F8-344C7DFD1487} = {022E20DB-2CD0-4EC5-BF68-146003AC92F6}
 		{9C8EB98A-6687-4175-BABD-49A66908A79C} = {6199389B-3C9E-4724-84C7-C8B04C587CFA}
 		{97142D5A-0368-4C0E-B476-426446646619} = {9C8EB98A-6687-4175-BABD-49A66908A79C}
-		{51A6A2A6-4761-4778-AF58-76E3F0C77E8D} = {37AF3977-2CE3-410F-BAC7-4EDC010A35E9}
-		{840280FE-7127-4224-99E4-DACC62062041} = {51A6A2A6-4761-4778-AF58-76E3F0C77E8D}
 		{3BD793D1-0CD1-43BC-8F90-38C352ABE4FA} = {37AF3977-2CE3-410F-BAC7-4EDC010A35E9}
 		{56A413F8-3276-44D7-92A4-2528980E1861} = {3BD793D1-0CD1-43BC-8F90-38C352ABE4FA}
+		{51A6A2A6-4761-4778-AF58-76E3F0C77E8D} = {37AF3977-2CE3-410F-BAC7-4EDC010A35E9}
+		{840280FE-7127-4224-99E4-DACC62062041} = {51A6A2A6-4761-4778-AF58-76E3F0C77E8D}
 		{448AABBD-D243-49DC-8DE7-C4A9E4F9E3B4} = {3BD793D1-0CD1-43BC-8F90-38C352ABE4FA}
 		{5B76C393-EF50-410E-A665-079A7A176DC7} = {6199389B-3C9E-4724-84C7-C8B04C587CFA}
 		{72A3A08A-BFDC-483E-9571-BB01AE4ADF02} = {5B76C393-EF50-410E-A665-079A7A176DC7}
