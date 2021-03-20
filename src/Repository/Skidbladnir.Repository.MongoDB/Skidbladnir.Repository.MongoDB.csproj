@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Utility\Skidbladnir.Utility.Common\Skidbladnir.Utility.Common.csproj" />
     <ProjectReference Include="..\Skidbladnir.Repository.Abstractions\Skidbladnir.Repository.Abstractions.csproj" />
   </ItemGroup>
 

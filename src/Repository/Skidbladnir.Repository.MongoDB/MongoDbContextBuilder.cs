@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson.Serialization;
 using Skidbladnir.Repository.Abstractions;
 
@@ -18,6 +19,14 @@ namespace Skidbladnir.Repository.MongoDB
             _configuration = configuration;
         }
 
+        /// <inheritdoc />
+        public IMongoDbContextBuilder AddEntity<TEntity>() where TEntity : class, IHasId
+        {
+            _services.AddSingleton<IRepository<TEntity>, MongoRepository<TEntity, TDbContext>>();
+            var defaultEntityConfiguration = Utilities.CreateDefaultMongoMap<TEntity>();
+            BsonClassMap.RegisterClassMap(defaultEntityConfiguration);
+            return this;
+        }
 
         /// <inheritdoc />
         public IMongoDbContextBuilder AddEntity<TEntity, TEntityConfiguration>()
@@ -33,6 +42,15 @@ namespace Skidbladnir.Repository.MongoDB
         public IMongoDbContextBuilder UseConnectionString(string connectionString)
         {
             _configuration.ConnectionString = connectionString;
+            return this;
+        }
+
+        /// <inheritdoc />
+        public IMongoDbContextBuilder UseRetry(int retryCount)
+        {
+            if(retryCount < 1)
+                throw new ArgumentException("Can't be less 1", nameof(retryCount));
+            _configuration.RetryCount = retryCount;
             return this;
         }
     }

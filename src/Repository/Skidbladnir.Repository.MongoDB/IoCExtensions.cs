@@ -42,5 +42,31 @@ namespace Skidbladnir.Repository.MongoDB
 
             return services;
         }
+        /// <summary>
+        /// Addition register entities for base MongoDB context
+        /// </summary>
+        public static IServiceCollection ConfigureMongoDbContext(
+            this IServiceCollection services,
+            Action<MongoDbContextBuilder<BaseMongoDbContext>> builder)
+        {
+            var configuration = new MongoDbContextConfiguration<BaseMongoDbContext>();
+            var dbContextBuilder = new MongoDbContextBuilder<BaseMongoDbContext>(services, configuration);
+            builder?.Invoke(dbContextBuilder);
+            return services;
+        }
+
+        /// <summary>
+        /// Addition register entities for MongoDB context
+        /// </summary>
+        public static IServiceCollection ConfigureMongoDbContext<TDbContext>(
+            this IServiceCollection services,
+            Action<MongoDbContextBuilder<TDbContext>> builder)
+            where TDbContext : BaseMongoDbContext
+        {
+            var configuration = new MongoDbContextConfiguration<TDbContext>();
+            var dbContextBuilder = new MongoDbContextBuilder<TDbContext>(services, configuration);
+            builder?.Invoke(dbContextBuilder);
+            return services;
+        }
     }
 }
