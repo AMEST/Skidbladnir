@@ -5,7 +5,6 @@
     <Authors>Klabukov Erik</Authors>
     <Description>Data Protection Implementation with usign Skidbladnir.Repository.MongoDB</Description>
     <PackageTags>DataProtection; aspnet core; mongodb</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <VersionPrefix>0.0.1</VersionPrefix>
     <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>

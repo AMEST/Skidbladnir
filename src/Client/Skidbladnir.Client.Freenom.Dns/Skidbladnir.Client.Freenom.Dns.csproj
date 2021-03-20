@@ -6,7 +6,6 @@
     <Authors>Klabukov Erik</Authors>
     <Description>Freenom dns client for manage dns records</Description>
     <PackageTags>freenom; client</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <VersionPrefix>0.0.1</VersionPrefix>
     <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>

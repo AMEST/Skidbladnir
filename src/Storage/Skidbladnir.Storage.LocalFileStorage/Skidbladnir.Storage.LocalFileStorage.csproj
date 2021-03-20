@@ -4,20 +4,18 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Klabukov Erik</Authors>
     <Product />
-    <Description>Repository implemetation MongoDB</Description>
-    <PackageTags>repository; data; storage; mongodb</PackageTags>
+    <Description>Local file system storage implementation of IStorage abstractions </Description>
+    <PackageTags>storage; files; localfs</PackageTags>
     <VersionPrefix>0.0.1</VersionPrefix>
     <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.11" />
-    <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Utility\Skidbladnir.Utility.Common\Skidbladnir.Utility.Common.csproj" />
-    <ProjectReference Include="..\Skidbladnir.Repository.Abstractions\Skidbladnir.Repository.Abstractions.csproj" />
+    <ProjectReference Include="..\Skidbladnir.Storage.Abstractions\Skidbladnir.Storage.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

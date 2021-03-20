@@ -6,7 +6,6 @@
     <Product />
     <Description>Repository abstractions</Description>
     <PackageTags>repository; data; storage</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <VersionPrefix>0.0.1</VersionPrefix>
     <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>
