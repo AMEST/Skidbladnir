@@ -5,7 +5,6 @@
     <Authors>Klabukov Erik</Authors>
     <Description>Distributed cache Implementation with usign Skidbladnir.Repository.MongoDB</Description>
     <PackageTags>DistributedCache; aspnetcore; mongodb</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <VersionPrefix>0.0.1</VersionPrefix>
     <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>

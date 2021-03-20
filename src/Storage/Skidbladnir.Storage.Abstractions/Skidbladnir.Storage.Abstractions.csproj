@@ -6,7 +6,6 @@
     <Product />
     <Description>IStorage abstraction for store files</Description>
     <PackageTags>storage; files; abstraction</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <VersionPrefix>0.0.1</VersionPrefix>
     <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>

@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Klabukov Erik</Authors>
+    <Product />
+    <Description>Utilities</Description>
+    <PackageTags>utils; retry; pluarization</PackageTags>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>
 
 </Project>

@@ -6,7 +6,6 @@
     <Product />
     <Description>Local file system storage implementation of IStorage abstractions </Description>
     <PackageTags>storage; files; localfs</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <VersionPrefix>0.0.1</VersionPrefix>
     <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>

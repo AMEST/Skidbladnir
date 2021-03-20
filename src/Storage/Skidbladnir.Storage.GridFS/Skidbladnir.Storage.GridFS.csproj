@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Klabukov Erik</Authors>
+    <Product />
+    <Description>GridFS implementation of IStorage abstraction for store files</Description>
+    <PackageTags>storage; files; gridfs</PackageTags>
+    <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
