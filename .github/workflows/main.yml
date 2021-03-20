@@ -1,0 +1,32 @@
+name: Skidbladnur publish (build and publish master and tags)
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - v*
+    
+jobs:
+  publish-nuget:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: action-minver
+      uses: thefringeninja/action-minver@2.0.0-preview1
+      id: version
+      with:
+        # Optional. Specifies the default pre-release phase.
+        default-pre-release-phase: unstalable
+        # Optional. Specifies the prefix of the tags
+        tag-prefix: v
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.402'
+    - name: Restore and Build
+      run: dotnet build --configuration Release
+    - name: Pack package
+      run: Get-ChildItem -Path ./src/**/*.csproj -Recurse -Force | % { dotnet pack $_.ToString() -c Release -p:PackageVersion=${{ steps.version.outputs.version }} }
+    - name: Publish
+      run: Get-ChildItem -Path ./src/**/*.nupkg -Recurse -Force | % { dotnet nuget push $_.ToString() --skip-duplicate -s http://nuget.org/ -k ${{secrets.NUGET_PUBLISH_KEY}} }
