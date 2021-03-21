@@ -8,4 +8,4 @@ The DataProtection subsystem is mainly needed to create and store a distributed 
 
 ### Data protection implementation
 
-1. [MongoDB DataProtection](Skidbladnir.DataProtection.MongoDB/README.md) - Distributed Cache implementation using mongodb as storage
+1. [MongoDB DataProtection](Skidbladnir.DataProtection.MongoDb/README.md) - Distributed Cache implementation using mongodb as storage
