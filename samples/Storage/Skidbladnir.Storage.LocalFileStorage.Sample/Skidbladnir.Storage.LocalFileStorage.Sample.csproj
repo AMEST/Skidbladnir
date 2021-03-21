@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Modules\Skidbladnir.Modules\Skidbladnir.Modules.csproj" />
     <ProjectReference Include="..\..\..\src\Storage\Skidbladnir.Storage.Abstractions\Skidbladnir.Storage.Abstractions.csproj" />
     <ProjectReference Include="..\..\..\src\Storage\Skidbladnir.Storage.LocalFileStorage\Skidbladnir.Storage.LocalFileStorage.csproj" />
   </ItemGroup>
