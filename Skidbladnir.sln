@@ -49,6 +49,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.Storage.GridFS"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skidbladnir.Storage.GridFsStorage.Sample", "samples\Storage\Skidbladnir.Storage.GridFsStorage.Sample\Skidbladnir.Storage.GridFsStorage.Sample.csproj", "{84E11C48-08BD-4B8B-A79C-61CF6537937C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{636A0C37-ACFC-4BAB-A1A3-712D6F0E1F05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidbladnir.Modules", "src\Modules\Skidbladnir.Modules\Skidbladnir.Modules.csproj", "{5093E703-4FD5-4385-ACFC-F9F7954938AF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8FE808AC-92BD-4AC1-9078-EEEE65195E01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skidbladnir.Modules.Tests", "test\Skidbladnir.Modules.Tests\Skidbladnir.Modules.Tests.csproj", "{AFC5C04B-A857-4660-80A0-7847E43AAB39}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +113,14 @@ Global
 		{84E11C48-08BD-4B8B-A79C-61CF6537937C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84E11C48-08BD-4B8B-A79C-61CF6537937C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84E11C48-08BD-4B8B-A79C-61CF6537937C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5093E703-4FD5-4385-ACFC-F9F7954938AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5093E703-4FD5-4385-ACFC-F9F7954938AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5093E703-4FD5-4385-ACFC-F9F7954938AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5093E703-4FD5-4385-ACFC-F9F7954938AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFC5C04B-A857-4660-80A0-7847E43AAB39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFC5C04B-A857-4660-80A0-7847E43AAB39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFC5C04B-A857-4660-80A0-7847E43AAB39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFC5C04B-A857-4660-80A0-7847E43AAB39}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,6 +147,9 @@ Global
 		{72A3A08A-BFDC-483E-9571-BB01AE4ADF02} = {5B76C393-EF50-410E-A665-079A7A176DC7}
 		{544DF396-CBD2-4547-877A-98476F481F77} = {3BD793D1-0CD1-43BC-8F90-38C352ABE4FA}
 		{84E11C48-08BD-4B8B-A79C-61CF6537937C} = {5B76C393-EF50-410E-A665-079A7A176DC7}
+		{636A0C37-ACFC-4BAB-A1A3-712D6F0E1F05} = {37AF3977-2CE3-410F-BAC7-4EDC010A35E9}
+		{5093E703-4FD5-4385-ACFC-F9F7954938AF} = {636A0C37-ACFC-4BAB-A1A3-712D6F0E1F05}
+		{AFC5C04B-A857-4660-80A0-7847E43AAB39} = {8FE808AC-92BD-4AC1-9078-EEEE65195E01}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F5502508-B14D-4DDE-9CCF-2A62CF7C4F71}

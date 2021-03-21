@@ -1,35 +1,35 @@
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Skidbladnir.Storage.Abstractions;
-using Skidbladnir.Storage.GridFS;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Skidbladnir.Modules;
+using Skidbladnir.Storage.Abstractions;
 using FileInfo = Skidbladnir.Storage.Abstractions.FileInfo;
-
-namespace Skidbladnir.Storage.GridFsStorage.Sample
+namespace Skidbladnir.Storage.LocalFileStorage.Sample
 {
-    public class Worker : BackgroundService
+    public class StartupModule : RunnableModule
     {
-        private readonly ILogger<Worker> _logger;
-        private readonly IStorage<GridFsStorageInfo> _storage;
+        private ILogger<StartupModule> _logger;
+        private IStorage<LocalStorageInfo> _localStorage;
 
-        public Worker(ILogger<Worker> logger, IStorage<GridFsStorageInfo> storage)
+        public override void Configure(IServiceCollection services)
         {
-            _logger = logger;
-            _storage = storage;
+            services.AddLocalFsStorage(Configuration["Storage:Path"]);
         }
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public override async Task StartAsync(IServiceProvider provider, CancellationToken cancellationToken)
         {
+            _logger = provider.GetService<ILogger<StartupModule>>();
+            _localStorage = provider.GetService<IStorage<LocalStorageInfo>>();
             try
             {
                 var testString = $"This is a test text for write to file {DateTime.UtcNow}";
                 var testBinary = Encoding.UTF8.GetBytes(testString);
 
-                var currentDir = await _storage.GetFilesAsync("");
+                var currentDir = await _localStorage.GetFilesAsync("");
                 _logger.LogInformation("Files in root dir");
                 foreach (var fileInfo in currentDir)
                 {
@@ -41,24 +41,24 @@ namespace Skidbladnir.Storage.GridFsStorage.Sample
 
                 _logger.LogInformation("upload file:");
                 var testFileUploadStream = new MemoryStream(testBinary);
-                var uploadFileinfo = await _storage.UploadFileAsync(testFileUploadStream, "testFile.txt");
+                var uploadFileinfo = await _localStorage.UploadFileAsync(testFileUploadStream, "testFile.txt");
                 _logger.LogInformation("Filename: {FileName}\t\t Length: {Length}\t\t Date: {Date}",
                     uploadFileinfo.FileName,
                     uploadFileinfo.Size, uploadFileinfo.CreatedDate);
 
                 _logger.LogInformation("copy file");
-                await _storage.CopyAsync(uploadFileinfo.FilePath, $"{uploadFileinfo.FilePath}.new");
-                await _storage.CopyAsync(uploadFileinfo.FilePath,
-                    $"newFolder/{uploadFileinfo.FilePath}.new");
+                await _localStorage.CopyAsync(uploadFileinfo.FilePath, $"{uploadFileinfo.FilePath}.new");
+                await _localStorage.CopyAsync(uploadFileinfo.FilePath,
+                    $"newFolder{Path.DirectorySeparatorChar}{uploadFileinfo.FilePath}.new");
 
                 _logger.LogInformation("move file");
-                await _storage.MoveAsync($"{uploadFileinfo.FilePath}.new", $"{uploadFileinfo.FilePath}.backup");
+                await _localStorage.MoveAsync($"{uploadFileinfo.FilePath}.new", $"{uploadFileinfo.FilePath}.backup");
 
                 _logger.LogInformation("remove base file");
-                await _storage.DeleteAsync(uploadFileinfo.FilePath);
+                await _localStorage.DeleteAsync(uploadFileinfo.FilePath);
 
                 _logger.LogInformation("Files in root dir");
-                currentDir = await _storage.GetFilesAsync("");
+                currentDir = await _localStorage.GetFilesAsync("");
                 foreach (var fileInfo in currentDir)
                 {
                     _logger.LogInformation("Filename: {FileName}\t\t Length: {Length}\t\t Date: {Date}",
@@ -75,7 +75,7 @@ namespace Skidbladnir.Storage.GridFsStorage.Sample
 
         private async Task DownloadFileAndPrint(FileInfo info)
         {
-            var result = await _storage.DownloadFileAsync(info.FilePath);
+            var result = await _localStorage.DownloadFileAsync(info.FilePath);
             await using var fileStream = result.Content;
             using var streamReader = new StreamReader(fileStream);
             var fileContent = await streamReader.ReadToEndAsync();

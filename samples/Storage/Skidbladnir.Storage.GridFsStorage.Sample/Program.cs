@@ -1,6 +1,5 @@
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Skidbladnir.Storage.GridFS;
+using Skidbladnir.Modules;
 
 namespace Skidbladnir.Storage.GridFsStorage.Sample
 {
@@ -13,10 +12,6 @@ namespace Skidbladnir.Storage.GridFsStorage.Sample
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddHostedService<Worker>();
-                    services.AddGridFsStorage(hostContext.Configuration["Storage:ConnectionString"]);
-                });
+                .UseSkidbladnirModules<StartupModule>();
     }
 }
