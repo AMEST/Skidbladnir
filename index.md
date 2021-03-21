@@ -24,7 +24,7 @@ The repository contains the following directions and libraries:
 * [Client](src/Client/README.md) - Clients implementations for various services
   * [Client.Freenom.Dns](src/Client/Skidbladnir.Client.Freenom.Dns/README.md) - Client for managing dns zones in freenom
 * [Modules](src/Modules/Skidbladnir.Modules/README.md) - Simple modular system
-* Storage - File subsystem abstraction
-  * Storage.GridFs - GridFs storage implementation
-  * Storage.LocalFs - Local file system storage implementation
+* [Storage](src/Storage/README.md) - File subsystem abstraction
+  * [Storage.GridFs](src/Storage/Skidbladnir.Storage.GridFS/README.md) - GridFs storage implementation
+  * [Storage.LocalFs](src/Storage/Skidbladnir.Storage.LocalFileStorage/README.md) - Local file system storage implementation
 * [Utilities](src/Utility/Skidbladnir.Utility.Common/README.md) - A set of utilities to simplify development
