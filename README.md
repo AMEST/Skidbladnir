@@ -27,4 +27,4 @@ The repository contains the following directions and libraries:
 * Storage - File subsystem abstraction
   * Storage.GridFs - GridFs storage implementation
   * Storage.LocalFs - Local file system storage implementation
-* Utilities - A set of utilities to simplify development
+* [Utilities](src/Utility/Skidbladnir.Utility.Common/README.md) - A set of utilities to simplify development

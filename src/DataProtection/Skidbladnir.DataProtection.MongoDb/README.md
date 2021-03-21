@@ -2,7 +2,7 @@
 ## [DataProtection](../README.md)
 ## MongoDB data protection implementation
 
-[![NuGet](https://img.shields.io/nuget/vpre/Skidbladnir.DataProtection.MongoDB.svg?label=Skidbladnir.DataProtection.MongoDB)](https://www.nuget.org/packages/Skidbladnir.Caching.Distributed.MongoDB/absoluteLatest/)
+[![NuGet](https://img.shields.io/nuget/vpre/Skidbladnir.DataProtection.MongoDB.svg?label=Skidbladnir.DataProtection.MongoDB)](https://www.nuget.org/packages/Skidbladnir.DataProtection.MongoDB/absoluteLatest/)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/amest/Skidbladnir)
 ![GitHub](https://img.shields.io/github/license/amest/Skidbladnir)
 

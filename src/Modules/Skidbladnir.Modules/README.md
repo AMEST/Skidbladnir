@@ -1,6 +1,10 @@
 # [Skidbladnir Home](../../../README.md)
 ## Simple Modular system
 
+[![NuGet](https://img.shields.io/nuget/vpre/Skidbladnir.Modules.svg?label=Skidbladnir.Modules)](https://www.nuget.org/packages/Skidbladnir.Modules/absoluteLatest/)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/amest/Skidbladnir)
+![GitHub](https://img.shields.io/github/license/amest/Skidbladnir)
+
 ### Table of content
 - [Skidbladnir Home](#skidbladnir-home)
   - [Simple Modular system](#simple-modular-system)
