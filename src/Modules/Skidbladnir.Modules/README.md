@@ -1,6 +1,20 @@
 # [Skidbladnir Home](../../../README.md)
 ## Simple Modular system
 
+### Table of content
+- [Skidbladnir Home](#skidbladnir-home)
+  - [Simple Modular system](#simple-modular-system)
+    - [Table of content](#table-of-content)
+    - [Description](#description)
+    - [Install](#install)
+    - [Usage](#usage)
+      - [Preparation](#preparation)
+      - [Integration and launch](#integration-and-launch)
+        - [Integration with Hosting](#integration-with-hosting)
+        - [Integration with IServiceCollection](#integration-with-iservicecollection)
+          - [IServiceCollection of Hosting (for example ConfigureService in Startup.cs aspnet core)](#iservicecollection-of-hosting-for-example-configureservice-in-startupcs-aspnet-core)
+          - [IServiceCollection used in console application without Host](#iservicecollection-used-in-console-application-without-host)
+
 ### Description
 
 Implementation of a simple system of modules for dotnet applications.   
