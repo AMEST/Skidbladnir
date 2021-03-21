@@ -23,7 +23,7 @@ The repository contains the following directions and libraries:
   * [DataProtection.MongoDB](src/DataProtection/Skidbladnir.DataProtection.MongoDb/README.md) - Data protection implementation using Skidbladnir.Repository.MongoDB
 * [Client](src/Client/README.md) - Clients implementations for various services
   * [Client.Freenom.Dns](src/Client/Skidbladnir.Client.Freenom.Dns/README.md) - Client for managing dns zones in freenom
-* Modules - Simple modular system
+* [Modules](src/Modules/Skidbladnir.Modules/README.md) - Simple modular system
 * Storage - File subsystem abstraction
   * Storage.GridFs - GridFs storage implementation
   * Storage.LocalFs - Local file system storage implementation
