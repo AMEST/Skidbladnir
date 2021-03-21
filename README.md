@@ -15,8 +15,8 @@ Skidbladnir - This is the general name for a repository containing useful librar
 ## Content of Skidbladnir
 
 The repository contains the following directions and libraries:
-* Repository - are an abstraction of repositories for accessing databases.
-  * Repository.MongoDB - Repository implementation using MongoDB
+* [Repository](src/Repository/README.md) - are an abstraction of repositories for accessing databases.
+  * [Repository.MongoDB](src/Repository/Skidbladnir.Repository.MongoDB/README.md) - Repository implementation using MongoDB
 * [Caching](src/Caching/README.md) - Temporary storage of computed data
   * [DistributedCache.MongoDB](src/Caching/Skidbladnir.Caching.Distributed.MongoDB/README.md) - Distributed cache implementation using MongoDB
 * [DataProtection](src/DataProtection/README.md) - Abstraction of data protection asp net core subsystem for Skidbladnir libraries
