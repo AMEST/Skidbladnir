@@ -26,5 +26,5 @@ The repository contains the following directions and libraries:
 * [Modules](src/Modules/Skidbladnir.Modules/README.md) - Simple modular system
 * [Storage](src/Storage/README.md) - File subsystem abstraction
   * [Storage.GridFs](src/Storage/Skidbladnir.Storage.GridFS/README.md) - GridFs storage implementation
-  * [Storage.LocalFs](src/Stroage/Skidbladnir.Storage.LocalFileStorage/README.md) - Local file system storage implementation
+  * [Storage.LocalFs](src/Storage/Skidbladnir.Storage.LocalFileStorage/README.md) - Local file system storage implementation
 * [Utilities](src/Utility/Skidbladnir.Utility.Common/README.md) - A set of utilities to simplify development
