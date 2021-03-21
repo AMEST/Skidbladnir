@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Klabukov Erik</Authors>
+    <Description>Simple modular system implementation</Description>
+    <PackageTags>depenedncy injecton; modules;</PackageTags>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
