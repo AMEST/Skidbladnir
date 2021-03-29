@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Skidbladnir.Modules
 {
-    public class ModuleRunner : BackgroundService
+    public class ModuleRunner : IHostedService
     {
         private readonly IServiceProvider _provider;
         private readonly IEnumerable<Module> _modules;
@@ -20,16 +20,15 @@ namespace Skidbladnir.Modules
             _modules = modules;
             _logger = logger;
         }
-
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        
+        public Task StartAsync(CancellationToken cancellationToken)
         {
             var startedModules = new List<Task>();
-            stoppingToken.Register(StopAsync);
             foreach (var module in _modules.OfType<RunnableModule>())
             {
                 try
                 {
-                    var task = module.StartAsync(_provider, stoppingToken);
+                    var task = module.StartAsync(_provider, cancellationToken);
                     startedModules.Add(task);
                 }
                 catch (Exception e)
@@ -40,26 +39,24 @@ namespace Skidbladnir.Modules
             }
             return Task.WhenAll(startedModules);
         }
-        
-        public void StopAsync()
+
+        public Task StopAsync(CancellationToken cancellationToken)
         {
-            var tokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(5));
             var stoppingModules = new List<Task>();
             foreach (var module in _modules.OfType<RunnableModule>())
             {
                 try
                 {
-                    var task = module.StopAsync(tokenSource.Token);
+                    var task = module.StopAsync(cancellationToken);
                     stoppingModules.Add(task);
                 }
                 catch (Exception e)
                 {
                     _logger.LogError(e, "Fail to start module {Module}", module.GetType());
                 }
-
             }
 
-            Task.WaitAll(stoppingModules.ToArray());
+            return Task.WhenAll(stoppingModules);
         }
     }
 }
