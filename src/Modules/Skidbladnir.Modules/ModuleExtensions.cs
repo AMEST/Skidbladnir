@@ -21,12 +21,15 @@ namespace Skidbladnir.Modules
         /// Integration of a modular system with Microsoft.Extensions.Hosting.
         /// Register dependencies from module, add IConfiguration, register ModuleRunner HostedService
         /// </summary>
-        public static IHostBuilder UseSkidbladnirModules<TModule>(this IHostBuilder hostBuilder)
+        public static IHostBuilder UseSkidbladnirModules<TModule>(
+            this IHostBuilder hostBuilder,
+            Action<ModulesConfiguration> configurationBuilder = null
+        )
             where TModule : Module, new()
         {
             hostBuilder.ConfigureServices((context, collection) =>
             {
-                collection.AddSkidbladnirModules<TModule>(context.Configuration);
+                collection.AddSkidbladnirModules<TModule>(configurationBuilder, context.Configuration);
             });
             return hostBuilder;
         }
@@ -37,6 +40,7 @@ namespace Skidbladnir.Modules
         /// </summary>
         public static IServiceCollection AddSkidbladnirModules<TModule>(
             this IServiceCollection serviceCollection,
+            Action<ModulesConfiguration> configurationBuilder = null,
             IConfiguration configuration = null
         )
             where TModule : Module, new()
@@ -44,10 +48,14 @@ namespace Skidbladnir.Modules
             if (configuration == null)
                 configuration = ConfigureDefaultConfiguration();
 
+            var modulesConfiguration = new ModulesConfiguration(configuration);
+
+            configurationBuilder?.Invoke(modulesConfiguration);
+
             var modules = GetModulesRecursively(typeof(TModule));
             foreach (var module in modules)
             {
-                module.Configuration = configuration;
+                module.Configuration = modulesConfiguration;
                 module.Configure(serviceCollection);
             }
 

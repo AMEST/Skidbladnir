@@ -48,7 +48,8 @@ Sample dependent module ( for sample registering LocalStorage):
 public class DependentRunnubleModule: RunnableModule{
     public override void Configure(IServiceCollection services)
     {
-        services.AddLocalFsStorage(Configuration["Storage:Path"]);
+        var storageConfiguration = Configuration.GetOrCreate<LocalFsStorageConfiguration>("Storage");
+        services.AddLocalFsStorage(storageConfiguration);
     }
     
     public override async Task StartAsync(IServiceProvider provider, CancellationToken cancellationToken)

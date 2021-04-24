@@ -15,9 +15,9 @@ namespace Skidbladnir.Modules
         public virtual Type[] DependsModules { get; }
 
         /// <summary>
-        /// Configurations from Microsoft Extensions Configuration
+        /// Configuration store
         /// </summary>
-        public IConfiguration Configuration { get; internal set; }
+        public ModulesConfiguration Configuration { get; internal set; }
 
         /// <summary>
         /// Configure IoC Container

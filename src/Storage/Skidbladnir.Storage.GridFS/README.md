@@ -25,7 +25,7 @@ Install-Package Skidbladnir.Storage.GridFS
 ```c#
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddGridFsStorage("mongodb://login:pass@localhost:27017/StorageGFTest?authSource=admin");
+    services.AddGridFsStorage(new GridFsStorageConfiguration(){ConnectionString = "mongodb://login:pass@localhost:27017/StorageGFTest?authSource=admin"});
     service.AddHostedService<TestBackgroundService>(); //Add sample service
 }
 ```

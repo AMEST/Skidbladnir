@@ -17,7 +17,8 @@ namespace Skidbladnir.Storage.LocalFileStorage.Sample
 
         public override void Configure(IServiceCollection services)
         {
-            services.AddLocalFsStorage(Configuration["Storage:Path"]);
+            var storageConfiguration = Configuration.Get<LocalFsStorageConfiguration>();
+            services.AddLocalFsStorage(storageConfiguration);
         }
 
         public override async Task StartAsync(IServiceProvider provider, CancellationToken cancellationToken)

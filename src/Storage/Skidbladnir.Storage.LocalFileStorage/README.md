@@ -25,7 +25,7 @@ Install-Package Skidbladnir.Storage.LocalFileStorage
 ```c#
 public void ConfigureServices(IServiceCollection services)
 {
-    services.AddLocalFsStorage("c:\\file_storage");
+    services.AddLocalFsStorage(new LocalFsStorageConfiguration(){Path ="c:\\file_storage"});
     service.AddHostedService<TestBackgroundService>(); //Add sample service
 }
 ```

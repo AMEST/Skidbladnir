@@ -19,7 +19,8 @@ namespace Skidbladnir.Storage.GridFsStorage.Sample
 
         public override void Configure(IServiceCollection services)
         {
-            services.AddGridFsStorage(Configuration["Storage:ConnectionString"]);
+            var storageConfiguration = Configuration.Get<GridFsStorageConfiguration>();
+            services.AddGridFsStorage(storageConfiguration);
         }
 
         public override async Task StartAsync(IServiceProvider provider, CancellationToken cancellationToken)

@@ -7,17 +7,16 @@ namespace Skidbladnir.Storage.GridFS
 {
     public static class Extensions
     {
-        public static IServiceCollection AddGridFsStorage(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddGridFsStorage(this IServiceCollection services, GridFsStorageConfiguration configuration)
         {
-            var storageInfo = new GridFsStorageInfo(connectionString);
+            var storageInfo = new GridFsStorageInfo(configuration.ConnectionString);
             services.AddSingleton<GridFsStorageInfo>(storageInfo);
             services.AddSingleton<IStorage<GridFsStorageInfo>, GridFsStorage<GridFsStorageInfo>>();
             services.AddSingleton<BucketFactory<GridFsStorageInfo>>();
             return services;
         }
 
-        public static IServiceCollection AddGridFsStorage<TStorageInfo>(this IServiceCollection services, string name,
-            string connectionString)
+        public static IServiceCollection AddGridFsStorage<TStorageInfo>(this IServiceCollection services, string name, GridFsStorageConfiguration configuration)
             where TStorageInfo : GridFsStorageInfo
         {
             var infoType = typeof(TStorageInfo);
@@ -25,7 +24,7 @@ namespace Skidbladnir.Storage.GridFS
             if (constructorInfo == null)
                 throw new InvalidOperationException("Can't find constructor with 2 string input params");
 
-            var storageInfo = (TStorageInfo)constructorInfo.Invoke(new[] { name, connectionString });
+            var storageInfo = (TStorageInfo)constructorInfo.Invoke(new[] { name, configuration.ConnectionString });
             services.AddSingleton<TStorageInfo>(storageInfo);
             services.AddSingleton<IStorage<TStorageInfo>, GridFsStorage<TStorageInfo>>();
             services.AddSingleton<BucketFactory<TStorageInfo>>();
