@@ -9,16 +9,16 @@ namespace Skidbladnir.Storage.LocalFileStorage
 {
     public static class Extensions
     {
-        public static IServiceCollection AddLocalFsStorage(this IServiceCollection services, string storagePath)
+        public static IServiceCollection AddLocalFsStorage(this IServiceCollection services, LocalFsStorageConfiguration storageConfiguration)
         {
-            var storageInfo = new LocalStorageInfo(storagePath);
+            var storageInfo = new LocalStorageInfo(storageConfiguration.Path);
             services.AddSingleton<LocalStorageInfo>(storageInfo);
             services.AddSingleton<IStorage<LocalStorageInfo>, LocalStorage<LocalStorageInfo>>();
             return services;
         }
 
         public static IServiceCollection AddLocalFsStorage<TStorageInfo>(this IServiceCollection services, string name,
-            string storagePath)
+            LocalFsStorageConfiguration storageConfiguration)
             where TStorageInfo : LocalStorageInfo
         {
             var infoType = typeof(TStorageInfo);
@@ -26,7 +26,7 @@ namespace Skidbladnir.Storage.LocalFileStorage
             if (constructorInfo == null)
                 throw new InvalidOperationException("Can't find constructor with 2 string input params");
 
-            var storageInfo = (TStorageInfo) constructorInfo.Invoke(new[] {name, storagePath});
+            var storageInfo = (TStorageInfo) constructorInfo.Invoke(new[] {name, storageConfiguration.Path});
             services.AddSingleton<TStorageInfo>(storageInfo);
             services.AddSingleton<IStorage<TStorageInfo>, LocalStorage<TStorageInfo>>();
             return services;

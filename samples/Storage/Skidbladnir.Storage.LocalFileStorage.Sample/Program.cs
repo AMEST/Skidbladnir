@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Skidbladnir.Modules;
@@ -13,6 +14,11 @@ namespace Skidbladnir.Storage.LocalFileStorage.Sample
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSkidbladnirModules<StartupModule>();
+                .UseSkidbladnirModules<StartupModule>(configuration =>
+                {
+                    var storageConfiguration =
+                        configuration.AppConfiguration.GetSection("Storage").Get<LocalFsStorageConfiguration>();
+                    configuration.Add(storageConfiguration);
+                });
     }
 }
