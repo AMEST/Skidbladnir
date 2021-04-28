@@ -43,10 +43,10 @@ There are several types of modules:
 Module composition:
 1. `Type [] DependsModules` - Field of the list of dependencies, which will be recursively collected into one list and all dependencies are configured
 1. ` ModulesConfiguration Configuration` - The field containing the configuration storage object. Allows you to get and change settings in the repository of a modular system to change the behavior of modules
-1. `Configure (IServiceCollection services) `- Method in which dependencies are registered
-** Expansion of the composition by the background module **
+1. `Configure (IServiceCollection services) `- Method in which dependencies are registered   
+**Expansion of the composition by the background module:**
 1. `StartAsync (IServiceProvider provider, CancellationToken cancellationToken) `- The method that starts the background work of the module
-1. ` StopAsync (CancellationToken cancellationToken) `- The method that stops the background work of the module
+2. ` StopAsync (CancellationToken cancellationToken) `- The method that stops the background work of the module
 
 ### Install
 For use you needed install packages:

@@ -56,6 +56,9 @@ namespace Skidbladnir.Modules
             return typedConfig;
         }
 
+        /// <summary>
+        /// Add configuration to store
+        /// </summary>
         public void Add<T>(T config) where T : class
         {
             AddOrReplace(config);
