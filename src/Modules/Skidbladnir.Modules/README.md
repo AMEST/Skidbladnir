@@ -10,6 +10,7 @@
   - [Simple Modular system](#simple-modular-system)
     - [Table of content](#table-of-content)
     - [Description](#description)
+    - [Abstraction](#abstraction)
     - [Install](#install)
     - [Usage](#usage)
       - [Preparation](#preparation)
@@ -33,6 +34,20 @@ Integration takes place as follows:
 5. Registering the background job launch service
 6. Registration of the list of modules in DI.
 
+### Abstraction
+
+There are several types of modules:
+1. The usual module `Module`. Allows you to register and configure all dependent services based on the dependency tree.
+1. Module with background work `RunnubleModule`. Extension of a regular module with support for starting and stopping background work in modules.
+
+Module composition:
+1. `Type [] DependsModules` - Field of the list of dependencies, which will be recursively collected into one list and all dependencies are configured
+1. ` ModulesConfiguration Configuration` - The field containing the configuration storage object. Allows you to get and change settings in the repository of a modular system to change the behavior of modules
+1. `Configure (IServiceCollection services) `- Method in which dependencies are registered   
+**Expansion of the composition by the background module:**
+1. `StartAsync (IServiceProvider provider, CancellationToken cancellationToken) `- The method that starts the background work of the module
+2. ` StopAsync (CancellationToken cancellationToken) `- The method that stops the background work of the module
+
 ### Install
 For use you needed install packages:
 ```
@@ -48,7 +63,8 @@ Sample dependent module ( for sample registering LocalStorage):
 public class DependentRunnubleModule: RunnableModule{
     public override void Configure(IServiceCollection services)
     {
-        services.AddLocalFsStorage(Configuration["Storage:Path"]);
+        var storageConfiguration = Configuration.Get<LocalFsStorageConfiguration>();
+        services.AddLocalFsStorage(storageConfiguration);
     }
     
     public override async Task StartAsync(IServiceProvider provider, CancellationToken cancellationToken)
@@ -90,7 +106,12 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
-            .UseSkidbladnirModules<StartupModule>();
+            .UseSkidbladnirModules<StartupModule>(configuration =>
+                {
+                    var storageConfiguration =
+                        configuration.AppConfiguration.GetSection("Storage").Get<LocalFsStorageConfiguration>();
+                    configuration.Add(storageConfiguration);
+                });
 }
 ```
 
