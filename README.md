@@ -3,6 +3,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/amest/Skidbladnir)
 ![GitHub](https://img.shields.io/github/license/amest/Skidbladnir)
 
+[Search libraries on nuget](https://www.nuget.org/packages?q=Skidbladnir)
 
 - [Skidbladnir libraries](#skidbladnir-libraries)
   - [Description](#description)
