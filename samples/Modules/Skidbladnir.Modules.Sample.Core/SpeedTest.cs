@@ -23,7 +23,7 @@ namespace Skidbladnir.Modules.Sample.Core
             using var response = await _client.GetAsync(url, token);
             sw.Stop();
             var elapsedSeconds = sw.ElapsedMilliseconds / 1000.0;
-            var content = await response.Content.ReadAsStringAsync(token);
+            var content = await response.Content.ReadAsStringAsync();
             var contentLenghtKb = content.Length / 1024;
             return new SpeedTestResult()
             {
