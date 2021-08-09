@@ -10,7 +10,7 @@ namespace Skidbladnir.Repository.MongoDB
         /// Create default entity configuration
         /// </summary>
         public static EntityMapClass<TEntity> CreateDefaultMongoMap<TEntity>()
-            where TEntity : class, IHasId
+            where TEntity : class, IHasId<string>
         {
             var type = typeof(TEntity);
             var classMapDefinition = typeof(EntityMapClass<>);

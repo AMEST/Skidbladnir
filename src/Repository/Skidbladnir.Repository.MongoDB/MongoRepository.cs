@@ -9,7 +9,7 @@ using Skidbladnir.Utility.Common;
 namespace Skidbladnir.Repository.MongoDB
 {
     internal class MongoRepository<TEntity, TDbContext> : IRepository<TEntity>
-        where TEntity : class, IHasId
+        where TEntity : class, IHasId<string>
         where TDbContext : class, IMongoDbContext
 
     {
@@ -37,9 +37,9 @@ namespace Skidbladnir.Repository.MongoDB
             return Retry.Do(() => _dbCollection.InsertOneAsync(obj), _configuration.RetryCount);
         }
 
-        public Task Delete(string id)
+        public Task Delete(TEntity obj)
         {
-            return Retry.Do(() => _dbCollection.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", id)),
+            return Retry.Do(() => _dbCollection.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.Id)),
                 _configuration.RetryCount);
         }
 
@@ -50,14 +50,6 @@ namespace Skidbladnir.Repository.MongoDB
                 {
                     IsUpsert = true
                 }), _configuration.RetryCount);
-        }
-
-        public Task<TEntity> Get(string id)
-        {
-            var filter = Builders<TEntity>.Filter.Eq("_id", id);
-
-            return Retry.Do(() => _dbCollection.FindAsync(filter).Result.FirstOrDefaultAsync(),
-                _configuration.RetryCount);
         }
 
         public IQueryable<TEntity> GetAll()

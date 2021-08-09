@@ -8,13 +8,13 @@ namespace Skidbladnir.Repository.MongoDB
         /// Register entity with default entity configuration
         /// </summary>
         IMongoDbContextBuilder AddEntity<TEntity>()
-            where TEntity : class, IHasId;
+            where TEntity : class, IHasId<string>;
 
         /// <summary>
         /// Register entity, entity configuration
         /// </summary>
         IMongoDbContextBuilder AddEntity<TEntity, TEntityConfiguration>()
-            where TEntity: class, IHasId
+            where TEntity: class, IHasId<string>
             where TEntityConfiguration : EntityMapClass<TEntity>, new();
 
         /// <summary>
