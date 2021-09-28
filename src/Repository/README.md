@@ -8,5 +8,5 @@ The repository subsystem is needed to abstract from the implementation of data a
 
 ### Repository implementation
 
-1. [MongoDB](Skidbladnir.Repository.MongoDb/README.md) - Repository implementation using MongoDB
+1. [MongoDB](Skidbladnir.Repository.MongoDB/README.md) - Repository implementation using MongoDB
 2. [EntityFramework Core](Skidbladnir.Repository.EntityFrameworkCore/README.md) - Repository implementation using EntityFramework Core for access to data store
