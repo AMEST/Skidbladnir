@@ -1,10 +1,13 @@
 # [Skidbladnir Home](../../../README.md)
+
 ## [Storage](../README.md)
+
 ## GridFS storage
 
 [![NuGet](https://img.shields.io/nuget/vpre/Skidbladnir.Storage.GridFs.svg?label=Skidbladnir.Storage.GridFs)](https://www.nuget.org/packages/Skidbladnir.Storage.GridFs/absoluteLatest/)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/amest/Skidbladnir)
 ![GitHub](https://img.shields.io/github/license/amest/Skidbladnir)
+
 ### Description
 
 Implementation of file storage abstraction based on GridFS (file storage in mongodb).  
@@ -14,6 +17,7 @@ Well suited for small applications that work in content and do not have their ow
 ### Install
 
 For use you needed install packages:
+
 ```
 Install-Package Skidbladnir.Storage.GridFS
 ```

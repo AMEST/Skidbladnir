@@ -1,10 +1,13 @@
 # [Skidbladnir Home](../../../README.md)
+
 ## [Repository](../README.md)
+
 ## EntityFramework Core repository
 
 [![NuGet](https://img.shields.io/nuget/vpre/Skidbladnir.Repository.EntityFrameworkCore.svg?label=Skidbladnir.Repository.EntityFrameworkCore)](https://www.nuget.org/packages/Skidbladnir.Repository.EntityFrameworkCore/absoluteLatest/)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/amest/Skidbladnir)
 ![GitHub](https://img.shields.io/github/license/amest/Skidbladnir)
+
 ### Description
 
 Implementing abstraction of repositories using EntityFramework Core for access to data store.
@@ -12,7 +15,9 @@ Implementing abstraction of repositories using EntityFramework Core for access t
 Registration and configuration of entities context can occur from the `RegisterContext<TDbContext>(dbContextOptionsBuilder => {}, entitiesBuilder => {})` method.
 
 ### Install
+
 For use you needed install packages:
+
 ```
 Install-Package Skidbladnir.Repository.EntityFrameworkCore
 ```
@@ -22,6 +27,7 @@ Install-Package Skidbladnir.Repository.EntityFrameworkCore
 #### Preparation
 
 Sample entity:
+
 ```c#
     public class SimpleMessage : IHasId<int>
     {
@@ -33,6 +39,7 @@ Sample entity:
 ```
 
 Sample entity map:
+
 ```c#
     public class SimpleMessageConfiguration : IEntityTypeConfiguration<SimpleMessage>
     {
@@ -44,6 +51,7 @@ Sample entity map:
 ```
 
 Sample DbContext (implements `DbContextBase`):
+
 ```c#
     public class SampleDbContext : DbContextBase
     {
