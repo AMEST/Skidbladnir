@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Klabukov Erik</Authors>
+    <Product />
+    <Description>Repository implemetation EntityFamework Core</Description>
+    <PackageTags>repository; data; storage; entity framework core; efcore;</PackageTags>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
