@@ -20,7 +20,7 @@ namespace Skidbladnir.Repository.MongoDB
         }
 
         /// <inheritdoc />
-        public IMongoDbContextBuilder AddEntity<TEntity>() where TEntity : class, IHasId
+        public IMongoDbContextBuilder AddEntity<TEntity>() where TEntity : class, IHasId<string>
         {
             _services.AddSingleton<IRepository<TEntity>, MongoRepository<TEntity, TDbContext>>();
             var defaultEntityConfiguration = Utilities.CreateDefaultMongoMap<TEntity>();
@@ -30,7 +30,7 @@ namespace Skidbladnir.Repository.MongoDB
 
         /// <inheritdoc />
         public IMongoDbContextBuilder AddEntity<TEntity, TEntityConfiguration>()
-        where TEntity: class, IHasId
+        where TEntity: class, IHasId<string>
         where TEntityConfiguration : EntityMapClass<TEntity>, new()
         {
             _services.AddSingleton<IRepository<TEntity>, MongoRepository<TEntity,TDbContext>>();

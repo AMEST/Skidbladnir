@@ -1,7 +1,9 @@
 # [Skidbladnir Home](../../README.md)
+
 ## Storage
 
 ### Description
+
 This direction of the Skidbladnir library set will contain implementations of the File Storage Subsystem (`IStorage`) for data access.
 
 The file storage subsystem is necessary to abstract from the implementation of access and storage of files, which allows you to change the storage, use different storages for different types of files with minimal changes to the source code and the ability to simultaneously use several storages (for example, local for the cache, GridFs for images, and webdav for archives that are rarely requested).

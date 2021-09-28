@@ -1,5 +1,7 @@
 # [Skidbladnir Home](../../../README.md)
+
 ## [Caching](../README.md)
+
 ## MongoDB distributed cache implementation
 
 [![NuGet](https://img.shields.io/nuget/vpre/Skidbladnir.Caching.Distributed.MongoDB.svg?label=Skidbladnir.Caching.Distributed.MongoDB)](https://www.nuget.org/packages/Skidbladnir.Caching.Distributed.MongoDB/absoluteLatest/)
@@ -11,7 +13,9 @@
 This library implements a Microsoft distributed cache abstraction using MongoDB as a cache storage and use connection to MongoDB by `Skidbladnir.Repository.MongoDB`.
 
 ### Install
+
 For use you needed install packages:
+
 ```
 Install-Package Skidbladnir.Repository.MongoDB
 Install-Package Skidbladnir.Caching.Distributed.MongoDB
@@ -20,6 +24,7 @@ Install-Package Skidbladnir.Caching.Distributed.MongoDB
 ### Using
 
 To use the distributed cache, you need to connect the database using the `Skidbladnir.Repository.MongoDB` library and enable distributed cache using extension method `UseMongoDistributedCache`:
+
 ```c#
 public static IServiceCollection AddStorage(this IServiceCollection services)
         {
@@ -36,6 +41,7 @@ public static IServiceCollection AddStorage(this IServiceCollection services)
 ```
 
 Or extension method for `IServiceCollection` use `ConfigureMongoDb` for add entity to `BaseMongoDbContext`:
+
 ```c#
 public static IServiceCollection AddStorage(this IServiceCollection services)
         {
@@ -51,6 +57,7 @@ public static IServiceCollection AddStorage(this IServiceCollection services)
 ```
 
 Or extension method for `IServiceCollection` use `ConfigureMongoDb<TDbContext>` for add entity to `CustomDbContext`:
+
 ```c#
 public static IServiceCollection AddStorage(this IServiceCollection services)
         {

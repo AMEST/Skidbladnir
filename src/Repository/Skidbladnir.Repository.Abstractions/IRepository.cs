@@ -18,12 +18,7 @@ namespace Skidbladnir.Repository.Abstractions
         /// <summary>
         /// Delete entity from storage
         /// </summary>
-        Task Delete(string id);
-
-        /// <summary>
-        /// Get entity from storage by id
-        /// </summary>
-        Task<TEntity> Get(string id);
+        Task Delete(TEntity obj);
 
         /// <summary>
         /// Get Quaryable with all entities

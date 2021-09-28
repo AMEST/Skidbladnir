@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Klabukov Erik</Authors>
+    <Product />
+    <Description>Repository implemetation EntityFamework Core</Description>
+    <PackageTags>repository; data; storage; entity framework core; efcore;</PackageTags>
+    <VersionPrefix>0.0.1</VersionPrefix>
+    <RepositoryUrl>https://github.com/AMEST/Skidbladnir</RepositoryUrl>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.17" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Skidbladnir.Repository.Abstractions\Skidbladnir.Repository.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>
