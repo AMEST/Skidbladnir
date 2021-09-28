@@ -25,14 +25,14 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
 
         public byte[] Get(string key)
         {
-            using (var cachedEntry = _cacheRepository.Get(key).GetAwaiter().GetResult())
+            using (var cachedEntry = _cacheRepository.GetAll().Where(i => i.Id == key).SingleOrDefault())
             {
                 if (cachedEntry == null)
                     return null;
 
                 if (cachedEntry.IsExpired())
                 {
-                    _cacheRepository.Delete(cachedEntry.Id);
+                    _cacheRepository.Delete(cachedEntry);
                     return null;
                 }
 
@@ -69,7 +69,7 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
 
         public void Refresh(string key)
         {
-            using (var cachedEntry = _cacheRepository.Get(key).GetAwaiter().GetResult())
+            using (var cachedEntry = _cacheRepository.GetAll().Where(i => i.Id == key).SingleOrDefault())
             {
                 if (cachedEntry == null)
                     return;
@@ -77,7 +77,7 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
                 cachedEntry.CreationDateTimeOffset = DateTimeOffset.UtcNow;
 
                 if (cachedEntry.IsExpired())
-                    _cacheRepository.Delete(cachedEntry.Id);
+                    _cacheRepository.Delete(cachedEntry);
             }
         }
 
@@ -88,10 +88,10 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
 
         public void Remove(string key)
         {
-            using (var cachedEntry = _cacheRepository.Get(key).GetAwaiter().GetResult())
+            using (var cachedEntry = _cacheRepository.GetAll().Where(i => i.Id == key).SingleOrDefault())
             {
                 if (cachedEntry != null)
-                    _cacheRepository.Delete(cachedEntry.Id);
+                    _cacheRepository.Delete(cachedEntry);
             }
         }
 
@@ -112,7 +112,7 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
             {
                 using (cacheEntry)
                 {
-                    _cacheRepository.Delete(cacheEntry.Id);
+                    _cacheRepository.Delete(cacheEntry);
                 }
             }
             GC.Collect();

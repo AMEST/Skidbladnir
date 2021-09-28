@@ -3,7 +3,7 @@ using Skidbladnir.Repository.Abstractions;
 
 namespace Skidbladnir.Caching.Distributed.MongoDB
 {
-    internal class CacheEntry : IHasId, IDisposable
+    internal class CacheEntry : IHasId<string>, IDisposable
     {
         public CacheEntry(string key)
         {

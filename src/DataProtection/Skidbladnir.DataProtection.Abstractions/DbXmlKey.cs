@@ -2,7 +2,7 @@
 
 namespace Skidbladnir.DataProtection.Abstractions
 {
-    public class DbXmlKey : IHasId
+    public class DbXmlKey : IHasId<string>
     {
         public DbXmlKey(string id, string keyId, string key)
         {
