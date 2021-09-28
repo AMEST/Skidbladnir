@@ -26,7 +26,7 @@ Install-Package Skidbladnir.Repository.MongoDB
 
 Sample entity:
 ```c#
-public class FeedItem: IHasId
+public class FeedItem: IHasId<string>
 {
     public string Id {get; set;}
     public string Title { get; set; }
@@ -57,7 +57,7 @@ Next, we have two ways to register our context and entity:
 1. Registering the main context
 1. Registration of additional context
 
-In both cases, we will write the following in the module in ConfigureDependencies:
+In both cases, we will write the following in the module in ConfigureServices:
 Registering the main BaseMongoDbContext and the entity with configuration:
 
 ```c#
