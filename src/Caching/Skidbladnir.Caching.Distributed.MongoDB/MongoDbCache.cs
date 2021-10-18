@@ -25,28 +25,34 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
 
         public byte[] Get(string key)
         {
-            using (var cachedEntry = _cacheRepository.GetAll().Where(i => i.Id == key).SingleOrDefault())
+            return GetAsync(key).GetAwaiter().GetResult();
+        }
+
+        public async Task<byte[]> GetAsync(string key, CancellationToken token = new CancellationToken())
+        {
+            using (var cachedEntry = _cacheRepository.GetAll().SingleOrDefault(i => i.Id == key))
             {
                 if (cachedEntry == null)
                     return null;
 
                 if (cachedEntry.IsExpired())
                 {
-                    _cacheRepository.Delete(cachedEntry);
+                    await _cacheRepository.Delete(cachedEntry);
                     return null;
                 }
 
-                _cacheRepository.Update(cachedEntry);
+                await _cacheRepository.Update(cachedEntry);
                 return cachedEntry.Value;
             }
         }
 
-        public Task<byte[]> GetAsync(string key, CancellationToken token = new CancellationToken())
+        public void Set(string key, byte[] value, DistributedCacheEntryOptions options)
         {
-            return Task.Run(() => Get(key), token);
+            SetAsync(key, value, options).Wait();
         }
 
-        public void Set(string key, byte[] value, DistributedCacheEntryOptions options)
+        public async Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options,
+            CancellationToken token = new CancellationToken())
         {
             using (var cachingEntry = new CacheEntry(key)
             {
@@ -57,19 +63,18 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
                 CreationDateTimeOffset = DateTimeOffset.UtcNow
             })
             {
-                _cacheRepository.Update(cachingEntry);
+                await _cacheRepository.Update(cachingEntry);
             }
-        }
-
-        public Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options,
-            CancellationToken token = new CancellationToken())
-        {
-            return Task.Run(() => Set(key, value, options), token);
         }
 
         public void Refresh(string key)
         {
-            using (var cachedEntry = _cacheRepository.GetAll().Where(i => i.Id == key).SingleOrDefault())
+            RefreshAsync(key).Wait();
+        }
+
+        public async Task RefreshAsync(string key, CancellationToken token = new CancellationToken())
+        {
+            using (var cachedEntry = _cacheRepository.GetAll().SingleOrDefault(i => i.Id == key))
             {
                 if (cachedEntry == null)
                     return;
@@ -77,27 +82,22 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
                 cachedEntry.CreationDateTimeOffset = DateTimeOffset.UtcNow;
 
                 if (cachedEntry.IsExpired())
-                    _cacheRepository.Delete(cachedEntry);
+                    await _cacheRepository.Delete(cachedEntry);
             }
-        }
-
-        public Task RefreshAsync(string key, CancellationToken token = new CancellationToken())
-        {
-            return Task.Run(() => Refresh(key), token);
         }
 
         public void Remove(string key)
         {
-            using (var cachedEntry = _cacheRepository.GetAll().Where(i => i.Id == key).SingleOrDefault())
-            {
-                if (cachedEntry != null)
-                    _cacheRepository.Delete(cachedEntry);
-            }
+            RemoveAsync(key).Wait();
         }
 
-        public Task RemoveAsync(string key, CancellationToken token = new CancellationToken())
+        public async Task RemoveAsync(string key, CancellationToken token = new CancellationToken())
         {
-            return Task.Run(() => Remove(key), token);
+            using (var cachedEntry = _cacheRepository.GetAll().SingleOrDefault(i => i.Id == key))
+            {
+                if (cachedEntry != null)
+                    await _cacheRepository.Delete(cachedEntry);
+            }
         }
 
         public void Dispose()
@@ -112,9 +112,10 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
             {
                 using (cacheEntry)
                 {
-                    _cacheRepository.Delete(cacheEntry);
+                    _cacheRepository.Delete(cacheEntry).Wait();
                 }
             }
+
             GC.Collect();
         }
     }

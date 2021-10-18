@@ -1,5 +1,5 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
@@ -17,7 +17,6 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
             }
 
             result = JsonConvert.DeserializeObject<TResult>(Encoding.UTF8.GetString(cacheValue));
-            cacheValue = null;
             return true;
         }
 
@@ -26,7 +25,13 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
         {
             var serializedEntry = JsonConvert.SerializeObject(entry);
             cache.Set(key, Encoding.UTF8.GetBytes(serializedEntry),options);
-            serializedEntry = null;
+        }
+
+        public static Task SetAsync(this IDistributedCache cache, string key, object entry,
+            DistributedCacheEntryOptions options)
+        {
+            var serializedEntry = JsonConvert.SerializeObject(entry);
+            return cache.SetAsync(key, Encoding.UTF8.GetBytes(serializedEntry), options);
         }
     }
 }
