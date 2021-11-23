@@ -3,18 +3,18 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
-using Skidbladnir.Repository.Abstractions;
+using MongoDB.Driver;
 
 namespace Skidbladnir.Caching.Distributed.MongoDB
 {
     internal class MongoDbCache : IDistributedCache, IDisposable
     {
-        private readonly IRepository<CacheEntry> _cacheRepository;
+        private readonly MongoDbContext _dbContext;
         private readonly Timer _clearExpiredItems;
 
-        public MongoDbCache(IRepository<CacheEntry> cacheRepository)
+        public MongoDbCache(MongoDbContext dbContext)
         {
-            _cacheRepository = cacheRepository;
+            _dbContext = dbContext;
             _clearExpiredItems =
                 new Timer(
                     callback: RemoveExpired,
@@ -23,6 +23,8 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
                     period: TimeSpan.FromMinutes(10));
         }
 
+        internal IMongoCollection<CacheEntry> Collection => _dbContext.GetCollection();
+
         public byte[] Get(string key)
         {
             return GetAsync(key).GetAwaiter().GetResult();
@@ -30,18 +32,22 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
 
         public async Task<byte[]> GetAsync(string key, CancellationToken token = new CancellationToken())
         {
-            using (var cachedEntry = _cacheRepository.GetAll().SingleOrDefault(i => i.Id == key))
+            using (var cachedEntry = Collection.AsQueryable().SingleOrDefault(i => i.Id == key))
             {
                 if (cachedEntry == null)
                     return null;
 
                 if (cachedEntry.IsExpired())
                 {
-                    await _cacheRepository.Delete(cachedEntry);
+                    await Collection.DeleteOneAsync(Builders<CacheEntry>.Filter.Eq("_id", key), token);
                     return null;
                 }
 
-                await _cacheRepository.Update(cachedEntry);
+                await Collection.ReplaceOneAsync(Builders<CacheEntry>.Filter.Eq("_id", cachedEntry.Id), cachedEntry,
+                    new ReplaceOptions()
+                    {
+                        IsUpsert = true
+                    }, token);
                 return cachedEntry.Value;
             }
         }
@@ -63,7 +69,11 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
                 CreationDateTimeOffset = DateTimeOffset.UtcNow
             })
             {
-                await _cacheRepository.Update(cachingEntry);
+                await Collection.ReplaceOneAsync(Builders<CacheEntry>.Filter.Eq("_id", cachingEntry.Id), cachingEntry,
+                    new ReplaceOptions()
+                    {
+                        IsUpsert = true
+                    }, token);
             }
         }
 
@@ -74,7 +84,7 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
 
         public async Task RefreshAsync(string key, CancellationToken token = new CancellationToken())
         {
-            using (var cachedEntry = _cacheRepository.GetAll().SingleOrDefault(i => i.Id == key))
+            using (var cachedEntry = Collection.AsQueryable().SingleOrDefault(i => i.Id == key))
             {
                 if (cachedEntry == null)
                     return;
@@ -82,7 +92,7 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
                 cachedEntry.CreationDateTimeOffset = DateTimeOffset.UtcNow;
 
                 if (cachedEntry.IsExpired())
-                    await _cacheRepository.Delete(cachedEntry);
+                   await Collection.DeleteOneAsync(Builders<CacheEntry>.Filter.Eq("_id", key), token);
             }
         }
 
@@ -93,10 +103,10 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
 
         public async Task RemoveAsync(string key, CancellationToken token = new CancellationToken())
         {
-            using (var cachedEntry = _cacheRepository.GetAll().SingleOrDefault(i => i.Id == key))
+            using (var cachedEntry = Collection.AsQueryable().SingleOrDefault(i => i.Id == key))
             {
                 if (cachedEntry != null)
-                    await _cacheRepository.Delete(cachedEntry);
+                    await Collection.DeleteOneAsync(Builders<CacheEntry>.Filter.Eq("_id", key), token);
             }
         }
 
@@ -108,11 +118,11 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
 
         private void RemoveExpired(object state)
         {
-            foreach (var cacheEntry in _cacheRepository.GetAll().ToArray())
+            foreach (var cacheEntry in Collection.AsQueryable().ToArray())
             {
                 using (cacheEntry)
                 {
-                    _cacheRepository.Delete(cacheEntry).Wait();
+                    Collection.DeleteOne(Builders<CacheEntry>.Filter.Eq("_id", cacheEntry.Id));
                 }
             }
 
