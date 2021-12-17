@@ -9,11 +9,24 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
         /// <summary>
         ///     Add MongoDB Distributed Cache
         /// </summary>
-        public static IServiceCollection AddMongoDistributedCache(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddMongoDistributedCache(this IServiceCollection services,
+            string connectionString)
+        {
+            return services.AddMongoDistributedCache(new DistributedCacheMongoModuleConfiguration()
+                {ConnectionString = connectionString});
+        }
+
+        /// <summary>
+        ///     Add MongoDB Distributed Cache
+        /// </summary>
+        public static IServiceCollection AddMongoDistributedCache(this IServiceCollection services,
+            DistributedCacheMongoModuleConfiguration configuration)
         {
             BsonClassMap.RegisterClassMap(new CacheEntryMap());
-            services.AddSingleton(r => new MongoDbContext(connectionString));
-            return services.AddSingleton<IDistributedCache, MongoDbCache>();
+            return services
+                .AddSingleton(configuration)
+                .AddSingleton<MongoDbContext>()
+                .AddSingleton<IDistributedCache, MongoDbCache>();
         }
     }
 }

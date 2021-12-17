@@ -1,43 +1,51 @@
-﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+﻿using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Skidbladnir.DataProtection.Abstractions;
-using Skidbladnir.Repository.MongoDB;
 
 namespace Skidbladnir.DataProtection.MongoDb
 {
     public static class IocExtensions
     {
         /// <summary>
-        /// Connecting the data protection module with using MongoContextBuilder
+        /// Connecting the data protection module with using BaseMongoDbContext
         /// </summary>
-        public static IMongoDbContextBuilder UseDataProtection(this IMongoDbContextBuilder builder,
-            IServiceCollection services)
+        public static IDataProtectionBuilder PersistKeysToMongoDb(this IDataProtectionBuilder builder,
+            string connectionString, string collectionName = null)
         {
-            services.AddSingleton<IXmlRepository, XmlRepository>()
-                .AddSingleton<IConfigureOptions<KeyManagementOptions>, DataProtectionOptionsConfigurator>();
-            return builder.AddEntity<DbXmlKey, DbXmlKeyMap>();
+            
+            builder.Services.AddDataProtectionMongoDb(connectionString, collectionName);
+            return builder;
         }
 
         /// <summary>
         /// Connecting the data protection module with using BaseMongoDbContext
         /// </summary>
-        public static IServiceCollection UseDataProtection(this IServiceCollection services)
+        public static IDataProtectionBuilder PersistKeysToMongoDb(this IDataProtectionBuilder builder,
+            DataProtectionMongoModuleConfiguration configuration)
         {
-            return services.UseDataProtection<BaseMongoDbContext>();
+
+            builder.Services.AddDataProtectionMongoDb(configuration);
+            return builder;
         }
 
-        /// <summary>
-        /// Connecting the data protection module with using Custom Mongo db context
-        /// </summary>
-        public static IServiceCollection UseDataProtection<TDbContext>(this IServiceCollection services)
-            where TDbContext : BaseMongoDbContext
+        public static IServiceCollection AddDataProtectionMongoDb(this IServiceCollection services,
+            string connectionString, string collectionName = null)
         {
-            services.AddSingleton<IXmlRepository, XmlRepository>()
+            var configuration = new DataProtectionMongoModuleConfiguration{ConnectionString = connectionString};
+            if (!string.IsNullOrWhiteSpace(collectionName))
+                configuration.CollectionName = collectionName;
+            return services.AddDataProtectionMongoDb(configuration);
+        }
+
+        public static IServiceCollection AddDataProtectionMongoDb(this IServiceCollection services,
+            DataProtectionMongoModuleConfiguration configuration)
+        {
+            return services.AddSingleton(configuration)
+                .AddSingleton<MongoDbContext>()
+                .AddSingleton<IXmlRepository, XmlRepository>()
                 .AddSingleton<IConfigureOptions<KeyManagementOptions>, DataProtectionOptionsConfigurator>();
-            services.ConfigureMongoDbContext<TDbContext>(b => b.AddEntity<DbXmlKey, DbXmlKeyMap>());
-            return services;
         }
     }
 }

@@ -10,9 +10,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Skidbladnir.DataProtection.Abstractions\Skidbladnir.DataProtection.Abstractions.csproj" />
-    <ProjectReference Include="..\..\Repository\Skidbladnir.Repository.Abstractions\Skidbladnir.Repository.Abstractions.csproj" />
-    <ProjectReference Include="..\..\Repository\Skidbladnir.Repository.MongoDB\Skidbladnir.Repository.MongoDB.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="3.1.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Skidbladnir.Modules\Skidbladnir.Modules.csproj" />
   </ItemGroup>
 
 </Project>

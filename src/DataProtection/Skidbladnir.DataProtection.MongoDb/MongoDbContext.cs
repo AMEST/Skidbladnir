@@ -1,14 +1,15 @@
 ﻿using MongoDB.Driver;
 
-namespace Skidbladnir.Caching.Distributed.MongoDB
+namespace Skidbladnir.DataProtection.MongoDb
 {
     internal class MongoDbContext
     {
-        private readonly DistributedCacheMongoModuleConfiguration _configuration;
+        private readonly DataProtectionMongoModuleConfiguration _configuration;
+
         private IMongoDatabase Db { get; }
         private MongoClient MongoClient { get; }
 
-        public MongoDbContext(DistributedCacheMongoModuleConfiguration configuration)
+        public MongoDbContext(DataProtectionMongoModuleConfiguration configuration)
         {
             _configuration = configuration;
             var url = MongoUrl.Create(configuration.ConnectionString);
@@ -17,9 +18,9 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
         }
 
         /// <inheritdoc />
-        public IMongoCollection<CacheEntry> GetCollection()
+        public IMongoCollection<DbXmlKey> GetCollection()
         {
-            return Db.GetCollection<CacheEntry>("DistributedCache");
+            return Db.GetCollection<DbXmlKey>(_configuration.CollectionName ?? "dataProtection");
         }
     }
 }
