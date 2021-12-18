@@ -6,6 +6,7 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
     {
         public CacheEntryMap()
         {
+            AutoMap();
             MapProperty(x => x.Id)
                 .SetIsRequired(true);
         }
