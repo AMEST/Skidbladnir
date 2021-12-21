@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.Extensions.Options;
 
-namespace Skidbladnir.DataProtection.Abstractions
+namespace Skidbladnir.DataProtection.MongoDb
 {
     public class DataProtectionOptionsConfigurator : IConfigureOptions<KeyManagementOptions>
     {

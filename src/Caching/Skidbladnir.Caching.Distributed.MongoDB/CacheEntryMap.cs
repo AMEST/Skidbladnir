@@ -1,12 +1,12 @@
-﻿using Skidbladnir.Repository.MongoDB;
+﻿using MongoDB.Bson.Serialization;
 
 namespace Skidbladnir.Caching.Distributed.MongoDB
 {
-    internal class CacheEntryMap : EntityMapClass<CacheEntry>
+    internal class CacheEntryMap : BsonClassMap<CacheEntry>
     {
         public CacheEntryMap()
         {
-            ToCollection("DistributedCache");
+            AutoMap();
             MapProperty(x => x.Id)
                 .SetIsRequired(true);
         }

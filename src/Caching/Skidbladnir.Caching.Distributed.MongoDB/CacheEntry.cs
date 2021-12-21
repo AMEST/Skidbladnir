@@ -1,9 +1,8 @@
 ﻿using System;
-using Skidbladnir.Repository.Abstractions;
 
 namespace Skidbladnir.Caching.Distributed.MongoDB
 {
-    internal class CacheEntry : IHasId<string>, IDisposable
+    internal class CacheEntry : IDisposable
     {
         public CacheEntry(string key)
         {

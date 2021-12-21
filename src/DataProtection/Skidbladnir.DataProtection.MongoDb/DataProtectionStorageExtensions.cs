@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace Skidbladnir.DataProtection.Abstractions
+namespace Skidbladnir.DataProtection.MongoDb
 {
     internal static class DataProtectionStorageExtensions
     {
