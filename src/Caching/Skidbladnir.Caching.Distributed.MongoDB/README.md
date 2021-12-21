@@ -10,64 +10,53 @@
 
 ### Description
 
-This library implements a Microsoft distributed cache abstraction using MongoDB as a cache storage and use connection to MongoDB by `Skidbladnir.Repository.MongoDB`.
+This library implements a Microsoft distributed cache abstraction using MongoDB as a cache storage.
 
 ### Install
 
 For use you needed install packages:
 
 ```
-Install-Package Skidbladnir.Repository.MongoDB
+Install-Package Skidbladnir.Modules
 Install-Package Skidbladnir.Caching.Distributed.MongoDB
 ```
 
 ### Using
 
-To use the distributed cache, you need to connect the database using the `Skidbladnir.Repository.MongoDB` library and enable distributed cache using extension method `UseMongoDistributedCache`:
+To use the distributed cache, you need execute extension method `AddMongoDistributedCache(string connectionString)` or `AddMongoDistributedCache(DistributedCacheMongoModuleConfiguration configuration)` on `IServiceCollection`:
 
+##### Example add Distributed Cache in `Startup.cs`
 ```c#
-public static IServiceCollection AddStorage(this IServiceCollection services)
-        {
-            //Add mongodb
-            services.AddMongoDbContext(builder =>
-                {
-                    // Configure Connection string
-                    builder.UseConnectionString(configuration.ConnectionString);
-                    // Enable MongoDB distributed cache
-                    builder.UseMongoDistributedCache(services);
-                });
-            return services;
-        }
+public static void ConfigureServices(this IServiceCollection services)
+{
+    services.AddMongoDistributedCache("ConnectionString");
+}
 ```
 
-Or extension method for `IServiceCollection` use `ConfigureMongoDb` for add entity to `BaseMongoDbContext`:
+##### Example add Distributed Cache in module system `StartupModule.cs`
+
+In `programm.cs` configure `Skidbladnir.Modules`:
 
 ```c#
-public static IServiceCollection AddStorage(this IServiceCollection services)
+private static IHostBuilder CreateHostBuilder(string[] args) =>
+    Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
         {
-            //Add mongodb
-            services.AddMongoDbContext(builder =>
-                {
-                    // Configure Connection string
-                    builder.UseConnectionString(configuration.ConnectionString);
-                });
-                services.UseMongoDistributedCache();
-            return services;
-        }
+            webBuilder.UseStartup<Startup>();
+        })
+        .UseSkidbladnirModules<StartupModule>(configuration =>
+        {
+            var distributedCacheConfig = configuration.AppConfiguration.GetSection("ConnectionStrings:Mongo").Get<DistributedCacheMongoModuleConfiguration>();
+            configuration.Add(distributedCacheConfig);
+        });
 ```
 
-Or extension method for `IServiceCollection` use `ConfigureMongoDb<TDbContext>` for add entity to `CustomDbContext`:
+And enable module `DistributedCacheMongoModule` inside `StartupModule.cs`:
 
 ```c#
-public static IServiceCollection AddStorage(this IServiceCollection services)
-        {
-            //Add mongodb
-            services.AddMongoDbContext<CustomDbContext>(builder =>
-                {
-                    // Configure Connection string
-                    builder.UseConnectionString(configuration.ConnectionString);
-                });
-                services.UseMongoDistributedCache<CustomDbContext>();
-            return services;
-        }
+public class StartupModule : Module
+{
+    public override Type[] DependsModules => new []{ typeof(DistributedCacheMongoModule) };
+
+}
 ```
