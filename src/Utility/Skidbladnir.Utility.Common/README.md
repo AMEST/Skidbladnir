@@ -24,15 +24,22 @@ Install-Package Skidbladnir.Utility.Common
 
 1. Retry - retry policy implementation  
    Sample:
-
-   ``` c#
-    Retry.Do( () => DoSomething(), retryCount: 3, delay: TimeSpan.FromSeconds(1));
+   ```c#
+   var result = Retry.Do( () => DoSomething(), retryCount: 3, delay: TimeSpan.FromSeconds(1));
    ```
-
-2. Pluarization - Attempts to pluralize the specified text according to the rules of the English language.  
-   Sample:
-
+2. `Try` - The class contains methods that allow you to perform operations with the ability to handle errors   
+   Sample:  
+   ```c#
+   var result = await Try.DoAsync(() => DoSomething());
+   ```
+3. Pluarization - Attempts to pluralize the specified text according to the rules of the English language.  
+   Sample:  
    ```c#
     var text = "Index";
     Console.WriteLine(text.Plural()); //Writes: Indexes
+   ```
+4. `StreamExtentions` - The class contains methods for reading streams to memory   
+   Sample:  
+   ```c#
+   var streamBytes = fileStream.ReadAllBytes();
    ```

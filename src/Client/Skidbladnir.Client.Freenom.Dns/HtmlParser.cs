@@ -9,10 +9,12 @@ namespace Skidbladnir.Client.Freenom.Dns
 {
     internal static class HtmlParser
     {
-        private static Regex RecordIdRegex = new Regex(@"\[(\d*)\]", RegexOptions.Compiled);
+        private static readonly Regex RecordIdRegex = new Regex(@"\[(\d*)\]", RegexOptions.Compiled);
 
         public static string GetSecurityToken(string html)
         {
+            if(string.IsNullOrEmpty(html))
+                return null;
             var htmlSnippet = new HtmlDocument();
             htmlSnippet.LoadHtml(html);
             return htmlSnippet.DocumentNode.SelectNodes("//input[@type=\"hidden\" and @name=\"token\"]")
@@ -29,15 +31,21 @@ namespace Skidbladnir.Client.Freenom.Dns
         public static IEnumerable<Zone> GetZones(string html)
         {
             var listZones = new List<Zone>();
+            if(string.IsNullOrEmpty(html))
+                return listZones;
             var htmlSnippet = new HtmlDocument();
             htmlSnippet.LoadHtml(html);
             var tableRows = htmlSnippet.DocumentNode.SelectNodes("//table//tbody//tr");
+            if(tableRows == null)
+                return listZones;
             foreach (var tableRow in tableRows)
             {
+                if(tableRow == null)
+                    continue;
                 var zone = new Zone();
                 zone.Name = tableRow.SelectNodes(".//td[@class=\"second\"]//a")?.FirstOrDefault()?.InnerText?.Trim();
                 var registrationDateString =
-                    tableRow.SelectNodes(".//td[@class=\"third\"]").FirstOrDefault()?.InnerText?.Trim();
+                    tableRow.SelectNodes(".//td[@class=\"third\"]")?.FirstOrDefault()?.InnerText?.Trim();
                 zone.RegistrationDate = string.IsNullOrEmpty(registrationDateString)
                     ? DateTime.MinValue
                     : DateTime.Parse(registrationDateString);
