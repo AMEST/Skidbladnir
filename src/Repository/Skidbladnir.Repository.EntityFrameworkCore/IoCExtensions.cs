@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Skidbladnir.Repository.Abstractions;
 
 namespace Skidbladnir.Repository.EntityFrameworkCore
 {
@@ -13,6 +14,7 @@ namespace Skidbladnir.Repository.EntityFrameworkCore
             Action<IContextBuilder<TContext>> entitiesConfigure)
             where TContext : DbContext
         {
+            QueryableAsyncExtensions.TryAddAdapter<EntityFrameworkCoreQueryableAsyncAdapter>();
             EnsureDbContextConstructor<TContext>();
 
             var dbContextOptionsBuilder = new DbContextOptionsBuilder<TContext>();
