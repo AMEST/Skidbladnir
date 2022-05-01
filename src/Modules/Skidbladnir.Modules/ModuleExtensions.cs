@@ -17,6 +17,24 @@ namespace Skidbladnir.Modules
     /// </summary>
     public static class ModuleExtensions
     {
+
+#if NET6_0
+        public static WebApplicationBulder UseSkidbladnirModules<TModule>(
+            this WebApplicationBulder webApplicationBuilder,
+            Action<ModulesConfiguration> configurationBuilder = null
+        )
+            where TModule : Module, new()
+        {
+            webApplicationBuilder.WebHost.ConfigureServices((context, collection) =>
+            {
+                collection.AddSkidbladnirModules<TModule>(configurationBuilder, context.Configuration);
+            });
+            return hostBuilder;
+        }
+
+#endif
+
+
         /// <summary>
         /// Integration of a modular system with Microsoft.Extensions.Hosting.
         /// Register dependencies from module, add IConfiguration, register ModuleRunner HostedService
