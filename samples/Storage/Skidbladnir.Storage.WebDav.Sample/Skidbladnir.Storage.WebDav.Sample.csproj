@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>331ba4d8-efbc-4df6-ac78-d12ab711db03</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Modules\Skidbladnir.Modules\Skidbladnir.Modules.csproj" />
+    <ProjectReference Include="..\..\..\src\Storage\Skidbladnir.Storage.Abstractions\Skidbladnir.Storage.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\Storage\Skidbladnir.Storage.WebDav\Skidbladnir.Storage.WebDav.csproj" />
+  </ItemGroup>
+</Project>

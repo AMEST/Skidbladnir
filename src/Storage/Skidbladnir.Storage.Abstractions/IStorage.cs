@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 
 namespace Skidbladnir.Storage.Abstractions
@@ -7,7 +6,7 @@ namespace Skidbladnir.Storage.Abstractions
     /// <summary>
     /// File storage abstraction
     /// </summary>
-    public interface IStorage<TStorageInfo> where TStorageInfo : IStorageInfo
+    public interface IStorage
     {
         /// <summary>
         /// Get all files in path
@@ -51,5 +50,9 @@ namespace Skidbladnir.Storage.Abstractions
         /// Download file
         /// </summary>
         Task<DownloadResult> DownloadFileAsync(string pathToFile);
+    }
+
+    public interface IStorage<TStorageInfo> : IStorage where TStorageInfo : IStorageInfo
+    {
     }
 }
