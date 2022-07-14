@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson.Serialization;
 
 namespace Skidbladnir.DataProtection.MongoDb
 {
@@ -42,6 +43,7 @@ namespace Skidbladnir.DataProtection.MongoDb
         public static IServiceCollection AddDataProtectionMongoDb(this IServiceCollection services,
             DataProtectionMongoModuleConfiguration configuration)
         {
+            BsonClassMap.RegisterClassMap(new DbXmlKeyMap());
             return services.AddSingleton(configuration)
                 .AddSingleton<MongoDbContext>()
                 .AddSingleton<IXmlRepository, XmlRepository>()
