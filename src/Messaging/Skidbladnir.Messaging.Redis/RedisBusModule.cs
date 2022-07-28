@@ -15,7 +15,7 @@ namespace Skidbladnir.Messaging.Redis
         public override void Configure(IServiceCollection services)
         {
             var configuration = Configuration?.Get<RedisBusModuleConfiguration>(null);
-            if( configuration != null )
+            if (configuration != null)
                 services.AddSingleton(configuration);
 
             services.AddSingleton<RedisBus>();
@@ -29,9 +29,10 @@ namespace Skidbladnir.Messaging.Redis
             var consumers = provider.GetService<IEnumerable<IRedisConsumer>>();
             foreach (var consumer in consumers)
             {
-                await _bus.ProcessUndeliveredCommands(consumer);
                 await _bus.Subscribe(consumer);
             }
+            // Don't await this call because is background work
+            Task.Factory.StartNew(async () => await _bus.StartCommandProcessing(), creationOptions: TaskCreationOptions.LongRunning);
         }
 
         public override Task StopAsync(CancellationToken cancellationToken)
