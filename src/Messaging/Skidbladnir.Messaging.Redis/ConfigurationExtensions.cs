@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Skidbladnir.Messaging.Abstractions;
@@ -10,28 +11,28 @@ namespace Skidbladnir.Messaging.Redis
     {
         public static IMessageConsumerBuilder AddRedisBus(this IServiceCollection services, RedisBusModuleConfiguration configuration)
         {
+            var module = new RedisBusModule();
+            module.Configure(services);
             services.AddSingleton(configuration);
-            services.AddSingleton<RedisBus>();
-            services.AddSingleton<IMessageSender, RedisMessageSender>();
             var builder = new RedisMessageConsumerBuilder(services);
             return builder;
         }
 
-        public static async Task StartRedisBus(this IServiceProvider provider)
+        public static IMessageConsumerBuilder ConfigureConsumers(this IServiceCollection services)
         {
-            var bus = provider.GetService<RedisBus>();
-            var consumers = provider.GetService<IEnumerable<IRedisConsumer>>();
-            foreach (var consumer in consumers)
-            {
-                await bus.ProcessUndeliveredCommands(consumer);
-                await bus.Subscribe(consumer);
-            }
+            return new RedisMessageConsumerBuilder(services);
         }
 
-        public static async Task StopRedisBus(this IServiceProvider provider)
+        public static Task StartRedisBus(this IServiceProvider provider)
         {
-            var bus = provider.GetService<RedisBus>();
-            await bus.StopAsync();
+            var busService = provider.GetService<RedisBusModule>();
+            return busService.StartAsync(provider, CancellationToken.None);
+        }
+
+        public static Task StopRedisBus(this IServiceProvider provider)
+        {
+            var busService = provider.GetService<RedisBusModule>();
+            return busService.StopAsync(CancellationToken.None);
         }
     }
 }
