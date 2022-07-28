@@ -7,7 +7,7 @@ namespace Skidbkadnir.Repository.EntityFrameworkCore.Sample.entities
     {
         public void Configure(EntityTypeBuilder<SimpleGuid> builder)
         {
-            builder.ToTable("GuidStorage");
+            builder.ToTable("GuidsStorage");
         }
     }
 }

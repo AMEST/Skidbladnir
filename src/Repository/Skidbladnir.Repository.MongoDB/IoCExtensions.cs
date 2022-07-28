@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using Skidbladnir.Repository.Abstractions;
 
 namespace Skidbladnir.Repository.MongoDB
 {
@@ -27,6 +28,7 @@ namespace Skidbladnir.Repository.MongoDB
             Action<MongoDbContextBuilder<TDbContext>> builder)
             where TDbContext : BaseMongoDbContext
         {
+            QueryableAsyncExtensions.TryAddAdapter<MongoQueryableAsyncAdapter>();
             var configuration = new MongoDbContextConfiguration<TDbContext>();
             var dbContextBuilder = new MongoDbContextBuilder<TDbContext>(services, configuration);
             builder?.Invoke(dbContextBuilder);

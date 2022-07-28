@@ -131,6 +131,10 @@ namespace Skidbladnir.Storage.LocalFileStorage
                 throw new ArgumentNullException(nameof(pathToFile), "Can't be null or empty");
 
             var fullPath = Path.Combine(_storageInfo.StoragePath, pathToFile.EscapePath());
+
+            if (!Directory.Exists(fullPath.GetPathWithoutFileName()))
+                Directory.CreateDirectory(fullPath.GetPathWithoutFileName());
+
             if (File.Exists(fullPath))
                 File.Delete(fullPath);
 

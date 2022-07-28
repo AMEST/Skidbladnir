@@ -36,14 +36,14 @@ namespace Skidbkadnir.Repository.EntityFrameworkCore.Sample
                 await messagesRepository.Create(new SimpleMessage() {Text = "123Test", Timestamp = DateTime.UtcNow});
                 await messagesRepository.Create(new SimpleMessage() {Text = "123Test321", Timestamp = DateTime.UtcNow});
 
-                var items = await messagesRepository.GetAll().ToArrayAsync(cancellationToken);
+                var items = await messagesRepository.GetAll().ToArrayAsync();
                 foreach (var item in items)
                     logger.LogInformation("{0} : Text = {1} ; DateTime = {2}", item.Id, item.Text, item.Timestamp.ToString());
 
                 var guidRepository = scope.ServiceProvider.GetService<IRepository<SimpleGuid>>();
                 await guidRepository.Create(new SimpleGuid() {Guid = Guid.NewGuid().ToString()});
 
-                var guidItems = await messagesRepository.GetAll().ToArrayAsync(cancellationToken);
+                var guidItems = await messagesRepository.GetAll().ToArrayAsync();
                 foreach (var item in guidItems)
                     logger.LogInformation("{0} : Text = {1} ; DateTime = {2}", item.Id, item.Text, item.Timestamp.ToString());
             }
