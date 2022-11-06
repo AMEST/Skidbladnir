@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>dotnet-Skidbladnir.Messaging.Redis.Sample-98050139-1038-4E6C-B0FE-409EF7D8B574</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.23" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Messaging\Skidbladnir.Messaging.Abstractions\Skidbladnir.Messaging.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\src\Messaging\Skidbladnir.Messaging.Redis\Skidbladnir.Messaging.Redis.csproj" />
+    <ProjectReference Include="..\..\..\src\Modules\Skidbladnir.Modules\Skidbladnir.Modules.csproj" />
+  </ItemGroup>
+</Project>
