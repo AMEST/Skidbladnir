@@ -12,15 +12,19 @@ namespace Skidbladnir.Repository.MongoDB
     /// </summary>
     public class BaseMongoDbContext : IMongoDbContext
     {
-        private IMongoDatabase Db { get; set; }
-        private MongoClient MongoClient { get; set; }
+        private readonly MongoUrl _url;
+        private readonly IMongoDbContextConfiguration _configuration;
+        private IMongoDatabase _db;
+        private readonly Lazy<IMongoClient> _client;
 
         public BaseMongoDbContext(IMongoDbContextConfiguration configuration)
         {
-            var url = MongoUrl.Create(configuration.ConnectionString);
-            MongoClient = new MongoClient(url);
-            Db = MongoClient?.GetDatabase(url.DatabaseName);
+            _url = MongoUrl.Create(_configuration.ConnectionString);
+            _configuration = configuration;
+            _client = new Lazy<IMongoClient>(CreateClient);
         }
+
+        public IMongoDatabase Database => _db ?? (_db = _client.Value.GetDatabase(_url.DatabaseName));
 
         /// <inheritdoc />
         public virtual IMongoCollection<T> GetCollection<T>()
@@ -34,7 +38,12 @@ namespace Skidbladnir.Repository.MongoDB
             {
                 throw new Exception($"EntityMapClass<T> must call ToCollection method to specify mongo collection name. Type: {typeof(T).Name}");
             }
-            return Db.GetCollection<T>(cm.CollectionName);
+            return Database.GetCollection<T>(cm.CollectionName);
+        }
+
+        private IMongoClient CreateClient()
+        {
+            return new MongoClient(_url);
         }
     }
 }

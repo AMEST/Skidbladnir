@@ -25,11 +25,11 @@ namespace Skidbladnir.Repository.MongoDB
             return this;
         }
 
-        public void MapId<TMember>(Expression<Func<TClass, TMember>> memberLambda)
+        public void MapId<TMember>(Expression<Func<TClass, TMember>> memberLambda, BsonType storeType = BsonType.ObjectId)
         {
             MapIdMember(memberLambda)
                 .SetIdGenerator(StringObjectIdGenerator.Instance)
-                .SetSerializer(new StringSerializer(BsonType.ObjectId));
+                .SetSerializer(new StringSerializer(storeType));
         }
 
     }

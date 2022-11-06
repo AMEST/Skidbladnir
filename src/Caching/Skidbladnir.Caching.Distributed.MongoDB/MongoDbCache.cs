@@ -4,129 +4,128 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Distributed;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 
 namespace Skidbladnir.Caching.Distributed.MongoDB
 {
     internal class MongoDbCache : IDistributedCache, IDisposable
     {
+        private readonly TimeSpan _expiredItemsTimerPeriod = TimeSpan.FromMinutes(10);
         private readonly MongoDbContext _dbContext;
-        private readonly Timer _clearExpiredItems;
+        private readonly Timer _removeExpiredItemsTimer;
 
         public MongoDbCache(MongoDbContext dbContext)
         {
             _dbContext = dbContext;
-            _clearExpiredItems =
+            _removeExpiredItemsTimer =
                 new Timer(
                     callback: RemoveExpired,
                     state: null,
                     dueTime: TimeSpan.Zero,
-                    period: TimeSpan.FromMinutes(10));
+                    period: _expiredItemsTimerPeriod);
         }
 
         internal IMongoCollection<CacheEntry> Collection => _dbContext.GetCollection();
 
         public byte[] Get(string key)
         {
-            return GetAsync(key).GetAwaiter().GetResult();
+            return GetAsync(key)
+                .GetAwaiter()
+                .GetResult();
         }
 
         public async Task<byte[]> GetAsync(string key, CancellationToken token = new CancellationToken())
         {
-            using (var cachedEntry = Collection.AsQueryable().SingleOrDefault(i => i.Id == key))
-            {
-                if (cachedEntry == null)
-                    return null;
+            var cachedEntry = await Collection.AsQueryable()
+                .Where(i => i.Id == key)
+                .SingleOrDefaultAsync(token)
+                .ConfigureAwait(false);
 
-                if (cachedEntry.IsExpired())
-                {
-                    await Collection.DeleteOneAsync(Builders<CacheEntry>.Filter.Eq("_id", key), token);
-                    return null;
-                }
+            if (cachedEntry == null)
+                return null;
 
-                await Collection.ReplaceOneAsync(Builders<CacheEntry>.Filter.Eq("_id", cachedEntry.Id), cachedEntry,
-                    new ReplaceOptions()
-                    {
-                        IsUpsert = true
-                    }, token);
+            if (cachedEntry.IsExpired())
+                return null;
+
+            if (!cachedEntry.IsRefreshNeeded())
                 return cachedEntry.Value;
-            }
+
+            await Collection.ReplaceOneAsync(Builders<CacheEntry>.Filter.Eq(x => x.Id, cachedEntry.Id), cachedEntry,
+                new ReplaceOptions()
+                {
+                    IsUpsert = true
+                }, token)
+                .ConfigureAwait(false);
+
+            return cachedEntry.Value;
+
         }
 
         public void Set(string key, byte[] value, DistributedCacheEntryOptions options)
         {
-            SetAsync(key, value, options).Wait();
+            SetAsync(key, value, options)
+                .GetAwaiter()
+                .GetResult();
         }
 
         public async Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options,
             CancellationToken token = new CancellationToken())
         {
-            using (var cachingEntry = new CacheEntry(key)
+            var cachingEntry = new CacheEntry(key)
             {
                 Value = value,
                 AbsoluteExpiration = options.AbsoluteExpiration,
                 AbsoluteExpirationRelativeToNow = options.AbsoluteExpirationRelativeToNow,
                 SlidingExpiration = options.SlidingExpiration,
                 CreationDateTimeOffset = DateTimeOffset.UtcNow
-            })
-            {
-                await Collection.ReplaceOneAsync(Builders<CacheEntry>.Filter.Eq("_id", cachingEntry.Id), cachingEntry,
-                    new ReplaceOptions()
-                    {
-                        IsUpsert = true
-                    }, token);
-            }
+            };
+            await Collection.ReplaceOneAsync(Builders<CacheEntry>.Filter.Eq(x => x.Id, cachingEntry.Id), cachingEntry,
+                new ReplaceOptions()
+                {
+                    IsUpsert = true
+                }, token);
         }
 
         public void Refresh(string key)
         {
-            RefreshAsync(key).Wait();
+            RefreshAsync(key)
+                .GetAwaiter()
+                .GetResult();
         }
 
-        public async Task RefreshAsync(string key, CancellationToken token = new CancellationToken())
+        public Task RefreshAsync(string key, CancellationToken token = new CancellationToken())
         {
-            using (var cachedEntry = Collection.AsQueryable().SingleOrDefault(i => i.Id == key))
-            {
-                if (cachedEntry == null)
-                    return;
-
-                cachedEntry.CreationDateTimeOffset = DateTimeOffset.UtcNow;
-
-                if (cachedEntry.IsExpired())
-                   await Collection.DeleteOneAsync(Builders<CacheEntry>.Filter.Eq("_id", key), token);
-            }
+            return GetAsync(key, token);
         }
 
         public void Remove(string key)
         {
-            RemoveAsync(key).Wait();
+            RemoveAsync(key)
+                .GetAwaiter()
+                .GetResult();
         }
 
         public async Task RemoveAsync(string key, CancellationToken token = new CancellationToken())
         {
-            using (var cachedEntry = Collection.AsQueryable().SingleOrDefault(i => i.Id == key))
-            {
-                if (cachedEntry != null)
-                    await Collection.DeleteOneAsync(Builders<CacheEntry>.Filter.Eq("_id", key), token);
-            }
+            var cachedEntry = Collection.AsQueryable().Where(i => i.Id == key).SingleOrDefaultAsync(token);
+            if (cachedEntry != null)
+                await Collection.DeleteOneAsync(Builders<CacheEntry>.Filter.Eq(x => x.Id, key), token);
         }
 
         public void Dispose()
         {
-            _clearExpiredItems?.Change(Timeout.Infinite, Timeout.Infinite);
-            _clearExpiredItems?.Dispose();
+            _removeExpiredItemsTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+            _removeExpiredItemsTimer?.Dispose();
         }
 
-        private void RemoveExpired(object state)
+        private async void RemoveExpired(object state)
         {
-            foreach (var cacheEntry in Collection.AsQueryable().ToArray())
+            var cacheEntryList = await Collection.AsQueryable().ToListAsync();
+            foreach (var cacheEntry in cacheEntryList)
             {
-                using (cacheEntry)
-                {
-                    Collection.DeleteOne(Builders<CacheEntry>.Filter.Eq("_id", cacheEntry.Id));
-                }
+                if(!cacheEntry.IsExpired()) continue;
+                await Collection.DeleteOneAsync(Builders<CacheEntry>.Filter.Eq(x => x.Id, cacheEntry.Id));
             }
-
-            GC.Collect();
         }
     }
 }

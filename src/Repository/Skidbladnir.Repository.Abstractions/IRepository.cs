@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Skidbladnir.Repository.Abstractions
@@ -8,17 +9,17 @@ namespace Skidbladnir.Repository.Abstractions
         /// <summary>
         /// Add new entity to storage
         /// </summary>
-        Task Create(TEntity obj);
+        Task Create(TEntity obj, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Update entity in storage
         /// </summary>
-        Task Update(TEntity obj);
+        Task Update(TEntity obj, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Delete entity from storage
         /// </summary>
-        Task Delete(TEntity obj);
+        Task Delete(TEntity obj, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get Quaryable with all entities

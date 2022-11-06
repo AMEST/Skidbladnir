@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Skidbladnir.Repository.Abstractions;
@@ -19,24 +20,24 @@ namespace Skidbladnir.Repository.EntityFrameworkCore
 
         protected DbSet<TEntity> Entities => _entities ?? (_entities = _context.Set<TEntity>());
 
-        public async Task Create(TEntity obj)
+        public async Task Create(TEntity obj, CancellationToken cancellationToken = default)
         {
             await Entities.AddAsync(obj);
-            await _context.SaveChangesAsync()
+            await _context.SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
 
-        public async Task Update(TEntity obj)
+        public async Task Update(TEntity obj, CancellationToken cancellationToken = default)
         {
             Entities.Update(obj);
-            await _context.SaveChangesAsync()
+            await _context.SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
 
-        public async Task Delete(TEntity obj)
+        public async Task Delete(TEntity obj, CancellationToken cancellationToken = default)
         {
             Entities.Remove(obj);
-            await _context.SaveChangesAsync()
+            await _context.SaveChangesAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
 

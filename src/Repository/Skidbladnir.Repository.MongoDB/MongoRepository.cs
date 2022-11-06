@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -24,32 +25,29 @@ namespace Skidbladnir.Repository.MongoDB
             _dbCollection = _mongoContext.GetCollection<TEntity>();
         }
 
-        public Task Create(TEntity obj)
+        public Task Create(TEntity obj, CancellationToken cancellationToken = default)
         {
             if (obj == null)
             {
                 throw new ArgumentNullException(typeof(TEntity).Name + " object is null");
             }
 
-            if (string.IsNullOrEmpty(obj.Id))
-                obj.Id = ObjectId.GenerateNewId().ToString();
-
-            return Retry.Do(() => _dbCollection.InsertOneAsync(obj), _configuration.RetryCount);
+            return Retry.Do(() => _dbCollection.InsertOneAsync(obj, null, cancellationToken), _configuration.RetryCount);
         }
 
-        public Task Delete(TEntity obj)
+        public Task Delete(TEntity obj, CancellationToken cancellationToken = default)
         {
-            return Retry.Do(() => _dbCollection.DeleteOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.Id)),
+            return Retry.Do(() => _dbCollection.DeleteOneAsync(Builders<TEntity>.Filter.Eq(x => x.Id, obj.Id), cancellationToken),
                 _configuration.RetryCount);
         }
 
-        public virtual Task Update(TEntity obj)
+        public virtual Task Update(TEntity obj, CancellationToken cancellationToken = default)
         {
-            return Retry.Do(() => _dbCollection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq("_id", obj.Id), obj,
+            return Retry.Do(() => _dbCollection.ReplaceOneAsync(Builders<TEntity>.Filter.Eq(x => x.Id, obj.Id), obj,
                 new ReplaceOptions()
                 {
                     IsUpsert = true
-                }), _configuration.RetryCount);
+                }, cancellationToken), _configuration.RetryCount);
         }
 
         public IQueryable<TEntity> GetAll()

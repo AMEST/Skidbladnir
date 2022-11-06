@@ -2,8 +2,10 @@
 
 namespace Skidbladnir.Caching.Distributed.MongoDB
 {
-    internal class CacheEntry : IDisposable
+    internal class CacheEntry
     {
+        private readonly TimeSpan _minRefreshTime = TimeSpan.FromSeconds(1);
+
         public CacheEntry(string key)
         {
             Id = key;
@@ -39,13 +41,15 @@ namespace Skidbladnir.Caching.Distributed.MongoDB
             return true;
         }
 
-        public void Dispose()
+        public bool IsRefreshNeeded()
         {
-            Id = null;
-            Value = null;
-            AbsoluteExpiration = null;
-            AbsoluteExpirationRelativeToNow = null;
-            SlidingExpiration = null;
+            if (!SlidingExpiration.HasValue)
+                return false;
+
+            if (DateTimeOffset.UtcNow - CreationDateTimeOffset <= _minRefreshTime)
+                return false;
+
+            return true;
         }
     }
 }
