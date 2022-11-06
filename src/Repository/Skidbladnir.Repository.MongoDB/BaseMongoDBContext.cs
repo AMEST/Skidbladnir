@@ -19,7 +19,7 @@ namespace Skidbladnir.Repository.MongoDB
 
         public BaseMongoDbContext(IMongoDbContextConfiguration configuration)
         {
-            _url = MongoUrl.Create(_configuration.ConnectionString);
+            _url = MongoUrl.Create(configuration.ConnectionString);
             _configuration = configuration;
             _client = new Lazy<IMongoClient>(CreateClient);
         }
