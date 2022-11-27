@@ -16,17 +16,24 @@ namespace Skidbladnir.Utility.Common
         public static byte[] ReadAllBytes(this Stream input)
         {
             if (!input.CanRead)
-            {
                 throw new ArgumentException("Stream is not readable", nameof(input));
-            }
 
             if (input is MemoryStream memoryStream)
-                return memoryStream.ToArray();
-
-            using (var ms = new MemoryStream())
             {
-                input.CopyTo(ms);
-                return ms.ToArray();
+                if (memoryStream.TryGetBuffer(out var buffer) 
+                    && buffer.Array != null 
+                    && buffer.Offset == 0 
+                    && buffer.Count == memoryStream.Length)
+                    return buffer.Array;
+
+                return memoryStream.ToArray();
+            }
+
+            var inputStreamLength = TryGetStreamLength(input);
+            using (memoryStream = new MemoryStream(inputStreamLength))
+            {
+                input.CopyTo(memoryStream);
+                return inputStreamLength == 0 ? memoryStream.ToArray() : memoryStream.GetBuffer();
             }
         }
 
@@ -37,18 +44,37 @@ namespace Skidbladnir.Utility.Common
         public static async Task<byte[]> ReadAllBytesAsync(this Stream input)
         {
             if (!input.CanRead)
-            {
                 throw new ArgumentException("Stream is not readable", nameof(input));
-            }
 
             if (input is MemoryStream memoryStream)
-                return memoryStream.ToArray();
+            {
+                if (memoryStream.TryGetBuffer(out var buffer)
+                    && buffer.Array != null
+                    && buffer.Offset == 0
+                    && buffer.Count == memoryStream.Length)
+                    return buffer.Array;
 
-            using (memoryStream = new MemoryStream())
+                return memoryStream.ToArray();
+            }
+
+            var inputStreamLength = TryGetStreamLength(input);
+            using (memoryStream = new MemoryStream(inputStreamLength))
             {
                 await input.CopyToAsync(memoryStream)
                     .ConfigureAwait(false);
-                return memoryStream.ToArray();
+                return inputStreamLength == 0 ? memoryStream.ToArray() : memoryStream.GetBuffer();
+            }
+        }
+
+        private static int TryGetStreamLength(Stream input)
+        {
+            try
+            {
+                return (int) input.Length;
+            }
+            catch (NotSupportedException)
+            {
+                return 0;
             }
         }
     }

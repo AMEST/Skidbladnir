@@ -1,26 +1,36 @@
-﻿using MongoDB.Driver;
+﻿using System;
+using MongoDB.Driver;
 
 namespace Skidbladnir.DataProtection.MongoDb
 {
     internal class MongoDbContext
     {
         private readonly DataProtectionMongoModuleConfiguration _configuration;
-
-        private IMongoDatabase Db { get; }
-        private MongoClient MongoClient { get; }
+        private readonly MongoUrl _url;
+        private readonly Lazy<IMongoClient> _client;
+        private readonly Lazy<IMongoDatabase> _db;
 
         public MongoDbContext(DataProtectionMongoModuleConfiguration configuration)
         {
             _configuration = configuration;
-            var url = MongoUrl.Create(configuration.ConnectionString);
-            MongoClient = new MongoClient(url);
-            Db = MongoClient?.GetDatabase(url.DatabaseName);
+            _url = MongoUrl.Create(_configuration.ConnectionString);
+            _client = new Lazy<IMongoClient>(CreateClient);
+            _db = new Lazy<IMongoDatabase>(GetDataBase);
         }
 
-        /// <inheritdoc />
         public IMongoCollection<DbXmlKey> GetCollection()
         {
-            return Db.GetCollection<DbXmlKey>(_configuration.CollectionName ?? "dataProtection");
+            return _db.Value.GetCollection<DbXmlKey>(_configuration.CollectionName ?? "dataProtection");
+        }
+
+        private IMongoClient CreateClient()
+        {
+            return new MongoClient(_url);
+        }
+
+        private IMongoDatabase GetDataBase()
+        {
+            return _client.Value.GetDatabase(_url.DatabaseName);
         }
     }
 }

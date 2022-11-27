@@ -9,14 +9,14 @@ namespace Skidbladnir.Storage.GridFS
         {
             Name = "GridFS storage";
             ConnectionString = connectionString;
-            Type = StorageType.Local;
+            Type = StorageType.Remote;
         }
 
         public GridFsStorageInfo(string name, string connectionString)
         {
             Name = name;
             ConnectionString = connectionString;
-            Type = StorageType.Local;
+            Type = StorageType.Remote;
         }
 
         public string Name { get; }

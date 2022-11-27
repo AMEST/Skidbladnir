@@ -1,0 +1,82 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Skidbladnir.Storage.GridFsStorage.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-Skidbladnir.Storage.GridFsStorage.Sample",
+            "program": "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.GridFsStorage.Sample/bin/Debug/netcoreapp3.1/Skidbladnir.Storage.GridFsStorage.Sample.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.GridFsStorage.Sample",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Skidbladnir.Storage.LocalFileStorage.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-Skidbladnir.Storage.LocalFileStorage.Sample",
+            "program": "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.LocalFileStorage.Sample/bin/Debug/netcoreapp3.1/Skidbladnir.Storage.LocalFileStorage.Sample.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.LocalFileStorage.Sample",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Skidbladnir.Storage.WebDav.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-Skidbladnir.Storage.WebDav.Sample",
+            "program": "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.WebDav.Sample/bin/Debug/netcoreapp3.1/Skidbladnir.Storage.WebDav.Sample.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.WebDav.Sample",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Skidbkadnir.Repository.EntityFrameworkCore.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-Skidbkadnir.Repository.EntityFrameworkCore.Sample",
+            "program": "${workspaceFolder}/samples/Repository/Skidbkadnir.Repository.EntityFrameworkCore.Sample/bin/Debug/netcoreapp3.1/Skidbkadnir.Repository.EntityFrameworkCore.Sample.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Repository/Skidbkadnir.Repository.EntityFrameworkCore.Sample",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Skidbladnir.Modules.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-Skidbladnir.Modules.Sample",
+            "program": "${workspaceFolder}/samples/Modules/Skidbladnir.Modules.Sample/bin/Debug/netcoreapp3.1/Skidbladnir.Modules.Sample.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Modules/Skidbladnir.Modules.Sample",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Skidbladnir.Messaging.Redis.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-Skidbladnir.Messaging.Redis.Sample",
+            "program": "${workspaceFolder}/samples/Messaging/Skidbladnir.Messaging.Redis.Sample/bin/Debug/netcoreapp3.1/Skidbladnir.Messaging.Redis.Sample.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Messaging/Skidbladnir.Messaging.Redis.Sample",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Skidbladnir.Client.Freenom.Dns.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-Skidbladnir.Client.Freenom.Dns.Sample",
+            "program": "${workspaceFolder}/samples/Client/Skidbladnir.Client.Freenom.Dns.Sample/bin/Debug/netcoreapp3.1/Skidbladnir.Client.Freenom.Dns.Sample.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/samples/Client/Skidbladnir.Client.Freenom.Dns.Sample",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        }
+    ]
+}

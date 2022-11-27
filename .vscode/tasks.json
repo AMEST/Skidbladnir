@@ -1,0 +1,89 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build-Skidbladnir.Storage.GridFsStorage.Sample",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.GridFsStorage.Sample/Skidbladnir.Storage.GridFsStorage.Sample.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-Skidbladnir.Storage.LocalFileStorage.Sample",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.LocalFileStorage.Sample/Skidbladnir.Storage.LocalFileStorage.Sample.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-Skidbladnir.Storage.WebDav.Sample",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.WebDav.Sample/Skidbladnir.Storage.WebDav.Sample.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-Skidbkadnir.Repository.EntityFrameworkCore.Sample",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/samples/Repository/Skidbkadnir.Repository.EntityFrameworkCore.Sample/Skidbkadnir.Repository.EntityFrameworkCore.Sample.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-Skidbladnir.Modules.Sample",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/samples/Modules/Skidbladnir.Modules.Sample/Skidbladnir.Modules.Sample.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-Skidbladnir.Messaging.Redis.Sample",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/samples/Messaging/Skidbladnir.Messaging.Redis.Sample/Skidbladnir.Messaging.Redis.Sample.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "build-Skidbladnir.Client.Freenom.Dns.Sample",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/samples/Client/Skidbladnir.Client.Freenom.Dns.Sample/Skidbladnir.Client.Freenom.Dns.Sample.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

@@ -104,10 +104,8 @@ namespace Skidbladnir.Storage.GridFS
             if (info == null)
                 throw new FileNotFoundException("File not found", pathToFile.NormilizePath());
 
-            var downloadStream = new MemoryStream();
-            await _gridFsBucket.Value.DownloadToStreamByNameAsync(pathToFile.NormilizePath(), downloadStream).ConfigureAwait(false);
-
-            downloadStream.Position = 0;
+            
+            var downloadStream = await _gridFsBucket.Value.OpenDownloadStreamByNameAsync(pathToFile.NormilizePath()).ConfigureAwait(false);
             return new DownloadResult(info, downloadStream);
         }
 
