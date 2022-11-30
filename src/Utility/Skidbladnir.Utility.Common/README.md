@@ -43,3 +43,17 @@ Install-Package Skidbladnir.Utility.Common
    ```c#
    var streamBytes = fileStream.ReadAllBytes();
    ```
+5. `ObjectExtensions` - The class contains common methods for `objects`. At now only implement `DeepClone` method.
+   Sample:
+   ```c#
+   var a = new MyObject();
+   var cloneA = a.DeepClone();
+   ```
+6. `Requires` - A static helper class that includes various parameter checking routines.
+   Sample:
+   ```c#
+   string test = "not empty string";
+   test.StringNotNullOrEmpty(); // pass without exception
+   MyObject a = null;
+   a.ObjectNotNull(); // Throw exception with text `Object can't be null`
+   ```
