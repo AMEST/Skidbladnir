@@ -6,7 +6,7 @@ namespace Skidbladnir.Storage.S3
 {
     public static class Extensions
     {
-        public static IServiceCollection AddGridFsStorage(this IServiceCollection services, S3StorageConfiguration configuration)
+        public static IServiceCollection AddS3Storage(this IServiceCollection services, S3StorageConfiguration configuration)
         {
             var storageInfo = new S3StorageInfo(configuration.ServiceUrl, configuration.AccessKey, configuration.SecretKey, configuration.Bucket);
             services.AddSingleton<S3StorageInfo>(storageInfo);
@@ -14,7 +14,7 @@ namespace Skidbladnir.Storage.S3
             return services;
         }
 
-        public static IServiceCollection AddGridFsStorage<TStorageInfo>(this IServiceCollection services, string name, S3StorageInfo configuration)
+        public static IServiceCollection AddS3Storage<TStorageInfo>(this IServiceCollection services, string name, S3StorageInfo configuration)
             where TStorageInfo : S3StorageInfo
         {
             var infoType = typeof(TStorageInfo);
@@ -31,12 +31,12 @@ namespace Skidbladnir.Storage.S3
         internal static string NormalizePath(this string path)
         {
             if (string.IsNullOrWhiteSpace(path))
-                return "/";
+                return "";
 
             var normalizedPath = path.Replace("\\", "/").Replace("//", "/");
             return path.StartsWith("/")
-                ? normalizedPath
-                : $"/{normalizedPath}";
+                ? normalizedPath.Substring(1)
+                : normalizedPath;
         }
     }
 }

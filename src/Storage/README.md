@@ -6,7 +6,7 @@
 
 This direction of the Skidbladnir library set will contain implementations of the File Storage Subsystem (`IStorage`) for data access.
 
-The file storage subsystem is necessary to abstract from the implementation of access and storage of files, which allows you to change the storage, use different storages for different types of files with minimal changes to the source code and the ability to simultaneously use several storages (for example, local for the cache, GridFs for images, and webdav for archives that are rarely requested).
+The file storage subsystem is necessary to abstract from the implementation of access and storage of files, which allows you to change the storage, use different storages for different types of files with minimal changes to the source code and the ability to simultaneously use several storages (for example, local for the cache, GridFs for images, webdav and s3 for archives that are rarely requested).
 
 ### IStorage abstraction methods
 
@@ -24,3 +24,4 @@ The file storage subsystem is necessary to abstract from the implementation of a
 1. [GirdFS](Skidbladnir.Storage.GridFS/README.md) - Implementation of file storage abstraction based on GridFS (file storage in mongodb)
 2. [LocalFs](Skidbladnir.Storage.LocalFileStorage/README.md) - Implementing a file storage abstraction on the file system of the host that the application is running on
 3. [WebDav](Skidbladnir.Storage.WebDav/README.md) - Implementing a file storage abstraction based on WebDav protocol
+4. [WebDav](Skidbladnir.Storage.S3/README.md) - Implementing a file storage abstraction based on S3 protocol

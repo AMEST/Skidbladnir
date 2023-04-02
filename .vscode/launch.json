@@ -77,6 +77,20 @@
             "cwd": "${workspaceFolder}/samples/Client/Skidbladnir.Client.Freenom.Dns.Sample",
             "stopAtEntry": false,
             "console": "internalConsole"
+        },
+        {
+            "name": "Skidbladnir.Storage.S3.Sample",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build-Skidbladnir.Storage.S3.Sample",
+            "program": "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.S3.Sample/bin/Debug/netcoreapp3.1/Skidbladnir.Storage.S3.Sample.dll",
+            "args": [],
+            "env": {
+                "DOTNET_ENVIRONMENT": "Development"
+            },
+            "cwd": "${workspaceFolder}/samples/Storage/Skidbladnir.Storage.S3.Sample",
+            "stopAtEntry": false,
+            "console": "internalConsole"
         }
     ]
 }
