@@ -31,8 +31,8 @@ public void ConfigureServices(IServiceCollection services)
 {
     services.AddS3Storage(new S3StorageConfiguration(){
         ServiceUrl = "https://minio.local/",
-        AccessKey = "User",
-        SecretKey = "Pass",
+        AccessKey = "accesskey",
+        SecretKey = "secretkey",
         Bucket = "Service-Files"
         });
     service.AddHostedService<TestBackgroundService>(); //Add sample service
