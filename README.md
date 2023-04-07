@@ -32,6 +32,7 @@ The repository contains the following directions and libraries:
   - [Storage.GridFs](src/Storage/Skidbladnir.Storage.GridFS/README.md) - GridFs storage implementation
   - [Storage.LocalFs](src/Storage/Skidbladnir.Storage.LocalFileStorage/README.md) - Local file system storage implementation
   - [Storage.WebDav](src/Storage/Skidbladnir.Storage.WebDav/README.md) - Implementing a file storage abstraction based on WebDav protocol
+  - [Storage.S3](src/Storage/Skidbladnir.Storage.S3/README.md) - Implementing a file storage abstraction based on S3 protocol
 - [Messaging](src/Messaging/README.md) - Pub/Sub and Send/Receive abstraction
   - [Messaging.Redis](src/Messaging/Skidbladnir.Messaging.Redis/README.md) - Redis implementation Pub/Sub and Send/Receive message bus
 - [Utilities](src/Utility/Skidbladnir.Utility.Common/README.md) - A set of utilities to simplify development
