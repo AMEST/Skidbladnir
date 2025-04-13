@@ -25,8 +25,6 @@ The repository contains the following directions and libraries:
   - [DistributedCache.MongoDB](src/Caching/Skidbladnir.Caching.Distributed.MongoDB/README.md) - Distributed cache implementation using MongoDB
 - [DataProtection](src/DataProtection/README.md) - Abstraction of data protection asp net core subsystem for Skidbladnir libraries
   - [DataProtection.MongoDB](src/DataProtection/Skidbladnir.DataProtection.MongoDb/README.md) - Data protection implementation using Skidbladnir.Repository.MongoDB
-- [Client](src/Client/README.md) - Clients implementations for various services
-  - [Client.Freenom.Dns](src/Client/Skidbladnir.Client.Freenom.Dns/README.md) - Client for managing dns zones in freenom
 - [Modules](src/Modules/Skidbladnir.Modules/README.md) - Simple modular system
 - [Storage](src/Storage/README.md) - File subsystem abstraction
   - [Storage.GridFs](src/Storage/Skidbladnir.Storage.GridFS/README.md) - GridFs storage implementation
