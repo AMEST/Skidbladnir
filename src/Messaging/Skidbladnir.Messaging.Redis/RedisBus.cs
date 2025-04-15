@@ -68,7 +68,7 @@ namespace Skidbladnir.Messaging.Redis
                 foreach (var messageType in messageTypes)
                 {
                     var consumers = _commandConsumers.Where(x => x.GetMessageType() == messageType).ToArray();
-                    commandConsumersTasks.Add(ProcessCommands(messageType, consumers))
+                    commandConsumersTasks.Add(ProcessCommands(messageType, consumers));
                 }
 
                 await Task.WhenAll(commandConsumersTasks);
