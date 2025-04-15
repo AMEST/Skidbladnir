@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -62,9 +63,13 @@ namespace Skidbladnir.Messaging.Redis
             var commandConsumersTasks = new List<Task>();
             while (!_stopping)
             {
-                
-                foreach (var consumer in _commandConsumers)
-                    commandConsumersTasks.Add(ProcessCommands(consumer));
+                var messageTypes = _commandConsumers.Select(x => x.GetMessageType()).Distinct().ToArray();
+
+                foreach (var messageType in messageTypes)
+                {
+                    var consumers = _commandConsumers.Where(x => x.GetMessageType() == messageType).ToArray();
+                    commandConsumersTasks.Add(ProcessCommands(messageType, consumers))
+                }
 
                 await Task.WhenAll(commandConsumersTasks);
                 commandConsumersTasks.Clear();
@@ -80,12 +85,12 @@ namespace Skidbladnir.Messaging.Redis
             return _redisConnectionMultiplexer.Value.CloseAsync();
         }
 
-        private async Task ProcessCommands(IRedisConsumer consumer)
+        private async Task ProcessCommands(Type messageType, IRedisConsumer[] consumers)
         {
             var db = _redisConnectionMultiplexer.Value.GetDatabase();
             var commandQueue =
-                string.Format(CommandQueueTemplate, _configuration.VirtualHost, consumer.GetMessageType()
-                    .Name);
+                string.Format(CommandQueueTemplate, _configuration.VirtualHost, messageType.Name);
+
             var commandQueueKey = new RedisKey(commandQueue);
             var channelName = new RedisChannel(commandQueue, RedisChannel.PatternMode.Literal);
 
@@ -93,7 +98,9 @@ namespace Skidbladnir.Messaging.Redis
             var processedMessages = 0;
             while (!undeliveredCommand.IsNullOrEmpty)
             {
-                await consumer.Consume(channelName, undeliveredCommand);
+                var consumeTasks = consumers.Select(x => x.Consume(channelName, undeliveredCommand)).ToList();
+                await Task.WhenAll(consumeTasks);
+
                 undeliveredCommand = await db.ListLeftPopAsync(commandQueueKey);
                 processedMessages++;
             }
