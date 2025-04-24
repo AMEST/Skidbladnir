@@ -39,9 +39,9 @@ namespace Skidbladnir.Messaging.Redis
                 CommandFlags.FireAndForget);
         }
 
-        public async Task SendAsync(Type messageType, object message, string serviceName)
+        public async Task SendAsync(Type messageType, object message, string virtualHost)
         {
-            var queue = string.Format(CommandQueueTemplate, serviceName, messageType.Name);
+            var queue = string.Format(CommandQueueTemplate, string.IsNullOrEmpty(virtualHost) ? _configuration.VirtualHost : virtualHost, messageType.Name);
             await PushCommand(queue, message);
         }
 
