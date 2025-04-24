@@ -93,10 +93,10 @@ namespace Skidbladnir.Messaging.Redis
 
             var commandQueueKey = new RedisKey(commandQueue);
             var channelName = new RedisChannel(commandQueue, RedisChannel.PatternMode.Literal);
-
+            
             var undeliveredCommand = await db.ListLeftPopAsync(commandQueueKey);
             var processedMessages = 0;
-            while (!undeliveredCommand.IsNullOrEmpty)
+            while (!undeliveredCommand.IsNullOrEmpty && !_stopping)
             {
                 var consumeTasks = consumers.Select(x => x.Consume(channelName, undeliveredCommand)).ToList();
                 await Task.WhenAll(consumeTasks);
