@@ -45,13 +45,18 @@ namespace Skidbladnir.Repository.EntityFrameworkCore
             {
             }
 
-            public override long GetServiceProviderHashCode()
+            public override int GetServiceProviderHashCode()
             {
                 return 0;
             }
 
             public override void PopulateDebugInfo(IDictionary<string, string> debugInfo)
             {
+            }
+
+            public override bool ShouldUseSameServiceProvider(DbContextOptionsExtensionInfo other)
+            {
+                return true;
             }
 
             public override bool IsDatabaseProvider { get; } = false;

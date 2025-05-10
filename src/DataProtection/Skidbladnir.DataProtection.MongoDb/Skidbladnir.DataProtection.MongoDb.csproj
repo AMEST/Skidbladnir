@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Authors>Klabukov Erik</Authors>
     <Description>Data Protection Implementation with usign Skidbladnir.Repository.MongoDB</Description>
     <PackageTags>DataProtection; aspnet core; mongodb</PackageTags>
@@ -10,8 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="3.1.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.11.4" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection" Version="8.0.15" />
+    <PackageReference Include="MongoDB.Driver" Version="2.30.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -19,11 +19,11 @@ namespace Skidbladnir.Messaging.Redis
             return _redisBus.PublishAsync(messageType, evt);
         }
 
-        public Task SendCommandAsync<TCommand>(TCommand command, string serviceName,
+        public Task SendCommandAsync<TCommand>(TCommand command, string virtualHost,
             CancellationToken token = default) where TCommand : class, new()
         {
             var messageType = command.GetType();
-            return _redisBus.SendAsync(messageType, command, serviceName);
+            return _redisBus.SendAsync(messageType, command, virtualHost);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Skidbladnir.Messaging.Abstractions
             CancellationToken token = default(CancellationToken))
             where TEvent : class, new();
 
-        Task SendCommandAsync<TCommand>(TCommand command, string serviceName,
+        Task SendCommandAsync<TCommand>(TCommand command, string virtualHost,
             CancellationToken token = default(CancellationToken))
             where TCommand : class, new();
     }

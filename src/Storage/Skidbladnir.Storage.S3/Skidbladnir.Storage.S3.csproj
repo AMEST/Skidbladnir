@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Authors>Klabukov Erik</Authors>
     <Product />
     <Description>S3 implementation of IStorage abstraction for store files</Description>
@@ -12,7 +12,7 @@
   <ItemGroup>
     <PackageReference Include="AWSSDK.Core" Version="3.7.106.10" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.103.40" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.11" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
   </ItemGroup>
 
   <ItemGroup>
